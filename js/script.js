@@ -140,8 +140,122 @@ const AgeHisto = ({ data }) => (
         },
       },
       series: [{
-        name: "Věk",
+        name: "Odsouzených",
         data: data.vek[0],
+      }],
+    }}
+  />
+);
+
+const NepoDelka = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "column",
+      },
+      title: {
+        text: "Délka nepodmíněných trestů",
+      },
+      credits: {
+        enabled: false,
+      },
+      plotOptions: {
+        column: {
+          pointPadding: 0,
+          borderWidth: 0,
+          groupPadding: 0,
+          shadow: false,
+        },
+      },
+      xAxis: {
+        categories: data.delka_nepo[1].map(num => Math.round(num)),
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Odsouzených",
+        },
+      },
+      series: [{
+        name: "Odsouzených",
+        data: data.delka_nepo[0],
+      }],
+    }}
+  />
+);
+
+const PoDelka = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "column",
+      },
+      title: {
+        text: "Délka podmíněných trestů",
+      },
+      credits: {
+        enabled: false,
+      },
+      plotOptions: {
+        column: {
+          pointPadding: 0,
+          borderWidth: 0,
+          groupPadding: 0,
+          shadow: false,
+        },
+      },
+      xAxis: {
+        categories: data.delka_po[1].map(num => Math.round(num)),
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Odsouzených",
+        },
+      },
+      series: [{
+        name: "Odsouzených",
+        data: data.delka_po[0],
+      }],
+    }}
+  />
+);
+
+const PoZkusDelka = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "column",
+      },
+      title: {
+        text: "Délka odkladu u podmíněných trestů",
+      },
+      credits: {
+        enabled: false,
+      },
+      plotOptions: {
+        column: {
+          pointPadding: 0,
+          borderWidth: 0,
+          groupPadding: 0,
+          shadow: false,
+        },
+      },
+      xAxis: {
+        categories: data.delka_zkus_po[1].map(num => Math.round(num)),
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Odsouzených",
+        },
+      },
+      series: [{
+        name: "Odsouzených",
+        data: data.delka_zkus_po[0],
       }],
     }}
   />
@@ -207,7 +321,9 @@ class TrestApp extends Component {
           <GenderRatio data={data} />
           <TrestTypy data={data} />
           <AgeHisto data={data} />
-          <div id="histo" />
+          <NepoDelka data={data} />
+          <PoDelka data={data} />
+          <PoZkusDelka data={data} />
         </div>
       )
     );
