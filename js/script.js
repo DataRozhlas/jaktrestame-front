@@ -1,19 +1,61 @@
 ﻿/* eslint-disable react/no-danger */
-import { h, render, Component } from "preact";
-import { ifError } from "assert";
-/** @jsx h */
+import React, { Component } from "react";
+import { render } from "react-dom";
+import Highcharts from "highcharts";
+import HighchartsReact from "highcharts-react-official";
 
-const ParaDetails = ({ para, info }) => (
-  <div>
+const ParaDetails = ({ info }) => (
+  <div id="para-details">
     {Object.keys(info.odst).map(odstavec => (
-      <div>
+      <div key={odstavec}>
         <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec].text }} />
         {Object.keys(info.odst[odstavec].pism).map(pismeno => (
-          <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec][pismeno].text }} />
+          <div key={pismeno} dangerouslySetInnerHTML={{ __html: info.odst[odstavec].pism[pismeno].text }} />
         ))}
       </div>
     ))}
   </div>
+);
+
+const GenderRatio = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "bar",
+      },
+      plotOptions: {
+        series: {
+          stacking: "normal",
+        },
+      },
+      credits: {
+        enabled: false,
+      },
+      xAxis: {
+        categories: [""],
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: 'Odsouzených',
+        },
+      },
+      title: {
+        text: "Pohlaví",
+      },
+      tooltip: {
+        shared: true,
+      },
+      series: [{
+        name: "Muži",
+        data: [data.pohlavi["muž"]],
+      }, {
+        name: "Ženy",
+        data: [data.pohlavi["žena"]],
+      }],
+    }}
+  />
 );
 
 class TrestApp extends Component {
@@ -67,12 +109,14 @@ class TrestApp extends Component {
     return (
       Object.keys(paraData).length === 0 || Object.keys(data).length === 0 ? <div>Načítám...</div> : (
         <div>
-          <select className="select-box" onChange={this.handleChange}>
+          <select className="select-box" defaultValue={para} onChange={this.handleChange}>
             {Object.keys(paraData).map(entry => (
-              <option value={entry} selected={para === entry ? "selected" : ""}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
+              <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
             ))}
           </select>
           <ParaDetails para={para} info={paraData[para]} />
+          <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
+          <GenderRatio data={data} />
         </div>
       )
     );
