@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { maxHeaderSize } from "http";
 
 const ParaDetails = ({ info }) => (
   <div id="para-details">
@@ -121,8 +122,16 @@ const AgeHisto = ({ data }) => (
       credits: {
         enabled: false,
       },
+      plotOptions: {
+        column: {
+          pointPadding: 0,
+          borderWidth: 0,
+          groupPadding: 0,
+          shadow: false,
+        },
+      },
       xAxis: {
-        categories: data.vek[1],
+        categories: data.vek[1].map(num => Math.round(num)),
       },
       yAxis: {
         min: 0,
