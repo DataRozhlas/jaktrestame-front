@@ -38,8 +38,11 @@ const GenderRatio = ({ data }) => (
       yAxis: {
         min: 0,
         title: {
-          text: 'Odsouzených',
+          text: "Odsouzených",
         },
+      },
+      legend: {
+        reversed: true,
       },
       title: {
         text: "Pohlaví",
@@ -53,6 +56,83 @@ const GenderRatio = ({ data }) => (
       }, {
         name: "Ženy",
         data: [data.pohlavi["žena"]],
+      }],
+    }}
+  />
+);
+
+const TrestTypy = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "bar",
+      },
+      plotOptions: {
+        series: {
+          stacking: "normal",
+        },
+      },
+      credits: {
+        enabled: false,
+      },
+      xAxis: {
+        categories: [""],
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Odsouzených",
+        },
+      },
+      title: {
+        text: "Typy trestů",
+      },
+      tooltip: {
+        shared: true,
+      },
+      series: [{
+        name: "Nepodmíněný",
+        data: [data.trest1["nepodmíněný (s dozorem)"] + data.trest1["nepodmíněný (s ostrahou)"]],
+      }, {
+        name: "Podmíněný",
+        data: [data.trest1["podmíněné odsouzení"] + data.trest1["podm\u00edn\u011bn\u00e9 odsouzen\u00ed s\u00a0dohledem"]],
+      }, {
+        name: "Obecně prospěšné práce",
+        data: [data.trest1["obecně prospěšné práce"] + data.trest1["trestní opatření – obecně prospěšné práce"]],
+      }, {
+        name: "Upuštěno",
+        data: [data.trest1["upuštění od uložení souhrnného trestu"] + data.trest1["upuštění od potrestání"]],
+      }],
+    }}
+  />
+);
+
+const AgeHisto = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "column",
+      },
+      title: {
+        text: "Věk",
+      },
+      credits: {
+        enabled: false,
+      },
+      xAxis: {
+        categories: data.vek[1],
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Odsouzených",
+        },
+      },
+      series: [{
+        name: "Věk",
+        data: data.vek[0],
       }],
     }}
   />
@@ -105,7 +185,6 @@ class TrestApp extends Component {
 
   render() {
     const { para, data, paraData } = this.state;
-    console.log(data, paraData);
     return (
       Object.keys(paraData).length === 0 || Object.keys(data).length === 0 ? <div>Načítám...</div> : (
         <div>
@@ -117,6 +196,9 @@ class TrestApp extends Component {
           <ParaDetails para={para} info={paraData[para]} />
           <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
           <GenderRatio data={data} />
+          <TrestTypy data={data} />
+          <AgeHisto data={data} />
+          <div id="histo" />
         </div>
       )
     );

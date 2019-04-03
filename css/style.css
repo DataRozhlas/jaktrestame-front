@@ -5,3 +5,7 @@
 #para-details {
   font-size: smaller;
 }
+
+#histo {
+  display: flex;
+}
