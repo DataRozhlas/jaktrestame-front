@@ -1,15 +1,26 @@
-﻿import { h, render, Component } from "preact";
+﻿/* eslint-disable react/no-danger */
+import { h, render, Component } from "preact";
+import { ifError } from "assert";
 /** @jsx h */
 
 const ParaDetails = ({ para, info }) => (
-  <div>{Object.keys(info.odst).map(odstavec => info.odst[odstavec].text)}</div>
+  <div>
+    {Object.keys(info.odst).map(odstavec => (
+      <div>
+        <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec].text }} />
+        {Object.keys(info.odst[odstavec].pism).map(pismeno => (
+          <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec][pismeno].text }} />
+        ))}
+      </div>
+    ))}
+  </div>
 );
 
 class TrestApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      para: "p128",
+      para: "p378",
       paraData: {},
       data: {},
     };
