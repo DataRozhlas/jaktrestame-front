@@ -3,7 +3,6 @@ import React, { Component } from "react";
 import { render } from "react-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { maxHeaderSize } from "http";
 
 const ParaDetails = ({ info }) => (
   <div id="para-details">
@@ -11,7 +10,10 @@ const ParaDetails = ({ info }) => (
       <div key={odstavec}>
         <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec].text }} />
         {Object.keys(info.odst[odstavec].pism).map(pismeno => (
-          <div key={pismeno} dangerouslySetInnerHTML={{ __html: info.odst[odstavec].pism[pismeno].text }} />
+          <div
+            key={pismeno}
+            dangerouslySetInnerHTML={{ __html: info.odst[odstavec].pism[pismeno].text }}
+          />
         ))}
       </div>
     ))}
@@ -265,12 +267,15 @@ class TrestApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      para: "p378",
+      para: "p188",
+      rok: "all",
       paraData: {},
+      odstData: {},
       data: {},
     };
 
-    this.handleChange = this.handleChange.bind(this);
+    this.handleParaSelect = this.handleParaSelect.bind(this);
+    this.handleYearSelect = this.handleYearSelect.bind(this);
   }
 
   componentDidMount() {
@@ -281,19 +286,35 @@ class TrestApp extends Component {
   // loading the paragraph list
   initLoad() {
     const xhr = new XMLHttpRequest();
-    const url = "https://data.irozhlas.cz/jaktrestame-front/data/paragrafy.json";
-    xhr.open("get", url, true);
+    const paraUrl = "https://data.irozhlas.cz/jaktrestame-front/data/paragrafy.json";
+    xhr.open("get", paraUrl, true);
     xhr.onload = () => {
       this.setState({ paraData: JSON.parse(xhr.responseText) });
+    };
+    xhr.send();
+    const odstUrl = "https://data.irozhlas.cz/jaktrestame-front/data/odstavce.json";
+    xhr.open("get", odstUrl, true);
+    xhr.onload = () => {
+      this.setState({ odstData: JSON.parse(xhr.responseText) });
     };
     xhr.send();
   }
 
   // loading the paragraph data
   loadData() {
+    const { para, rok, odstData } = this.state;
+    console.log(odstData)
+    // the request object:
+    // {"paragraf": "'196'"}
+    // rok_rozhodnuti: "2015" (16, 17)
+    // 'odstavec_nej', 'jeden_tc', 'drivods_kat' - drive ods. kategorie, 'novela',
+    const requestObject = {
+      paragraf: `'${para.substring(1)}'`,
+    };
+    if (rok !== "all") requestObject.rok_rozhodnuti = rok;
+    console.log(requestObject)
     const xhr = new XMLHttpRequest();
-    // demo data for now
-    const url = "https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=eyJyb2tfcm96aG9kbnV0aSI6ICInMjAxNSciLCAicGFyYWdyYWYiOiAiJzE5NiciLCAiamVkZW5fdGMiOiAiVHJ1ZSJ9";
+    const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
     xhr.open("get", url, true);
     xhr.onload = () => {
       this.setState({ data: JSON.parse(xhr.responseText) });
@@ -301,31 +322,53 @@ class TrestApp extends Component {
     xhr.send();
   }
 
-  handleChange() {
-    this.setState({ para: event.target.value });
-    this.loadData();
+  handleParaSelect(changeEvent) {
+    this.setState({ para: changeEvent.target.value }, () => {
+      this.loadData();
+    });
+  }
+
+  handleYearSelect(changeEvent) {
+    this.setState({ rok: changeEvent.target.value }, () => {
+      this.loadData();
+    });
   }
 
   render() {
-    const { para, data, paraData } = this.state;
+    const { para, data, paraData, rok } = this.state;
     return (
-      Object.keys(paraData).length === 0 || Object.keys(data).length === 0 ? <div>Načítám...</div> : (
-        <div>
-          <select className="select-box" defaultValue={para} onChange={this.handleChange}>
-            {Object.keys(paraData).map(entry => (
-              <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
-            ))}
-          </select>
-          <ParaDetails para={para} info={paraData[para]} />
-          <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
-          <GenderRatio data={data} />
-          <TrestTypy data={data} />
-          <AgeHisto data={data} />
-          <NepoDelka data={data} />
-          <PoDelka data={data} />
-          <PoZkusDelka data={data} />
-        </div>
-      )
+      Object.keys(paraData).length === 0 || Object.keys(data).length === 0
+        ? <div>Načítám...</div>
+        : (
+          <div>
+            <select className="select-box" defaultValue={para} onChange={this.handleParaSelect}>
+              {Object.keys(paraData).map(entry => (
+                <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
+              ))}
+            </select>
+            
+            <form id="year-select">
+              <b>Rok: </b>
+              <input type="radio" name="year" value="all" onChange={this.handleYearSelect} checked={rok === "all"} />
+              {" Všechny "}
+              <input type="radio" name="year" value="2015" onChange={this.handleYearSelect} checked={rok === "2015"} />
+              {" 2015 "}
+              <input type="radio" name="year" value="2016" onChange={this.handleYearSelect} checked={rok === "2016"} />
+              {" 2016 "}
+              <input type="radio" name="year" value="2017" onChange={this.handleYearSelect} checked={rok === "2017"} />
+              {" 2017 "}
+            </form>
+
+            <ParaDetails para={para} info={paraData[para]} />
+            <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
+            <GenderRatio data={data} />
+            <TrestTypy data={data} />
+            <AgeHisto data={data} />
+            <NepoDelka data={data} />
+            <PoDelka data={data} />
+            {/* <PoZkusDelka data={data} /> */}
+          </div>
+        )
     );
   }
 }
