@@ -267,15 +267,16 @@ class TrestApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      para: "p188",
-      rok: "all",
+      para: "p173",
+      odst: "all",
+      year: "all",
+      drivods: "all",
       paraData: {},
       odstData: {},
       data: {},
     };
 
-    this.handleParaSelect = this.handleParaSelect.bind(this);
-    this.handleYearSelect = this.handleYearSelect.bind(this);
+    this.handleSelect = this.handleSelect.bind(this);
   }
 
   componentDidMount() {
@@ -292,27 +293,33 @@ class TrestApp extends Component {
       this.setState({ paraData: JSON.parse(xhr.responseText) });
     };
     xhr.send();
+    const xhr2 = new XMLHttpRequest();
     const odstUrl = "https://data.irozhlas.cz/jaktrestame-front/data/odstavce.json";
-    xhr.open("get", odstUrl, true);
-    xhr.onload = () => {
-      this.setState({ odstData: JSON.parse(xhr.responseText) });
+    xhr2.open("get", odstUrl, true);
+    xhr2.onload = () => {
+      this.setState({ odstData: JSON.parse(xhr2.responseText) });
     };
-    xhr.send();
+    xhr2.send();
   }
 
   // loading the paragraph data
   loadData() {
-    const { para, rok, odstData } = this.state;
-    console.log(odstData)
+    const {
+      para, year, odst, drivods,
+    } = this.state;
     // the request object:
     // {"paragraf": "'196'"}
     // rok_rozhodnuti: "2015" (16, 17)
-    // 'odstavec_nej', 'jeden_tc', 'drivods_kat' - drive ods. kategorie, 'novela',
+    // odstavec_nej: odstavce.json
+    // drivods_kat: 1-2...
+    // 'jeden_tc', 'novela'
     const requestObject = {
       paragraf: `'${para.substring(1)}'`,
     };
-    if (rok !== "all") requestObject.rok_rozhodnuti = rok;
-    console.log(requestObject)
+    if (year !== "all") requestObject.rok_rozhodnuti = year;
+    if (odst !== "all") requestObject.odstavec_nej = odst;
+    if (drivods !== "all") requestObject.drivods_kat = `'${drivods}'`;
+    console.log(requestObject);
     const xhr = new XMLHttpRequest();
     const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
     xhr.open("get", url, true);
@@ -322,41 +329,66 @@ class TrestApp extends Component {
     xhr.send();
   }
 
-  handleParaSelect(changeEvent) {
-    this.setState({ para: changeEvent.target.value }, () => {
-      this.loadData();
-    });
-  }
-
-  handleYearSelect(changeEvent) {
-    this.setState({ rok: changeEvent.target.value }, () => {
+  handleSelect(id, changeEvent) {
+    if (id === "para") this.setState({ odst: "all" });
+    const stateChange = {};
+    stateChange[id] = changeEvent.target.value;
+    this.setState(stateChange, () => {
       this.loadData();
     });
   }
 
   render() {
-    const { para, data, paraData, rok } = this.state;
+    const {
+      para, data, paraData, odstData, odst, year, drivods,
+    } = this.state;
     return (
-      Object.keys(paraData).length === 0 || Object.keys(data).length === 0
+      Object.keys(paraData).length === 0
+      || Object.keys(data).length === 0
+      || Object.keys(odstData).length === 0
         ? <div>Načítám...</div>
         : (
           <div>
-            <select className="select-box" defaultValue={para} onChange={this.handleParaSelect}>
+            <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
               {Object.keys(paraData).map(entry => (
                 <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
               ))}
             </select>
-            
+
             <form id="year-select">
               <b>Rok: </b>
-              <input type="radio" name="year" value="all" onChange={this.handleYearSelect} checked={rok === "all"} />
+              <input type="radio" name="year" value="all" onChange={e => this.handleSelect("year", e)} checked={year === "all"} />
               {" Všechny "}
-              <input type="radio" name="year" value="2015" onChange={this.handleYearSelect} checked={rok === "2015"} />
+              <input type="radio" name="year" value="2015" onChange={e => this.handleSelect("year", e)} checked={year === "2015"} />
               {" 2015 "}
-              <input type="radio" name="year" value="2016" onChange={this.handleYearSelect} checked={rok === "2016"} />
+              <input type="radio" name="year" value="2016" onChange={e => this.handleSelect("year", e)} checked={year === "2016"} />
               {" 2016 "}
-              <input type="radio" name="year" value="2017" onChange={this.handleYearSelect} checked={rok === "2017"} />
+              <input type="radio" name="year" value="2017" onChange={e => this.handleSelect("year", e)} checked={year === "2017"} />
               {" 2017 "}
+            </form>
+
+            <form id="odst-select">
+              <b>Odstavec: </b>
+              <input type="radio" name="odst" value="all" onChange={e => this.handleSelect("odst", e)} checked={odst === "all"} />
+              {" Všechny "}
+              {odstData[para.substring(1)].sort().map(entry => (
+                <span key={entry}>
+                  <input type="radio" name="odst" value={entry} onChange={e => this.handleSelect("odst", e)} checked={odst === entry.toString()} />
+                  {` ${entry} `}
+                </span>
+              ))}
+            </form>
+
+            <form id="drivods-select">
+              <b>Počet předchozích odsouzení: </b>
+              <input type="radio" name="drivods" value="all" onChange={e => this.handleSelect("drivods", e)} checked={drivods === "all"} />
+              {" Všechny "}
+              {["0", "1-2", "3-5", "6-10", ">10"].map(entry => (
+                <span key={entry}>
+                  <input type="radio" name="drivods" value={entry} onChange={e => this.handleSelect("drivods", e)} checked={drivods === entry} />
+                  {` ${entry} `}
+                </span>
+              ))}
             </form>
 
             <ParaDetails para={para} info={paraData[para]} />
