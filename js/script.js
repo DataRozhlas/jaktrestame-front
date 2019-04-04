@@ -271,6 +271,7 @@ class TrestApp extends Component {
       odst: "all",
       year: "all",
       drivods: "all",
+      soubeh: "all",
       paraData: {},
       odstData: {},
       data: {},
@@ -305,20 +306,22 @@ class TrestApp extends Component {
   // loading the paragraph data
   loadData() {
     const {
-      para, year, odst, drivods,
+      para, year, odst, drivods, soubeh,
     } = this.state;
     // the request object:
     // {"paragraf": "'196'"}
     // rok_rozhodnuti: "2015" (16, 17)
     // odstavec_nej: odstavce.json
-    // drivods_kat: 1-2...
-    // 'jeden_tc', 'novela'
+    // drivods_kat: '1-2'...
+    // jeden_tc: T/F (souběh)
+    // 'novela'
     const requestObject = {
       paragraf: `'${para.substring(1)}'`,
     };
     if (year !== "all") requestObject.rok_rozhodnuti = year;
     if (odst !== "all") requestObject.odstavec_nej = odst;
     if (drivods !== "all") requestObject.drivods_kat = `'${drivods}'`;
+    if (soubeh !== "all") requestObject.jeden_tc = `'${soubeh}'`;
     console.log(requestObject);
     const xhr = new XMLHttpRequest();
     const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
@@ -340,7 +343,7 @@ class TrestApp extends Component {
 
   render() {
     const {
-      para, data, paraData, odstData, odst, year, drivods,
+      para, data, paraData, odstData, odst, year, drivods, soubeh,
     } = this.state;
     return (
       Object.keys(paraData).length === 0
@@ -391,6 +394,15 @@ class TrestApp extends Component {
               ))}
             </form>
 
+            <form id="soubeh-select">
+              <b>Souběh s jiným odsouzením: </b>
+              <input type="radio" name="soubeh" value="all" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "all"} />
+              {" Všechny "}
+              <input type="radio" name="soubeh" value="F" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "F"} />
+              {" Ano "}
+              <input type="radio" name="soubeh" value="T" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "T"} />
+              {" Ne "}
+            </form>
             <ParaDetails para={para} info={paraData[para]} />
             <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
             <GenderRatio data={data} />
