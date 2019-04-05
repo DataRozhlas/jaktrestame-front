@@ -56,10 +56,10 @@ const GenderRatio = ({ data }) => (
       },
       series: [{
         name: "Muži",
-        data: [data.pohlavi[1][0]],
+        data: [data.pohlavi[1][0] || 0],
       }, {
         name: "Ženy",
-        data: [data.pohlavi[1][1]],
+        data: [data.pohlavi[1][1] || 0],
       }],
     }}
   />
@@ -348,6 +348,7 @@ class TrestApp extends Component {
     xhr.open("get", url, true);
     xhr.onload = () => {
       this.setState({ data: JSON.parse(xhr.responseText) });
+      console.log(this.state.data)
     };
     xhr.send();
   }
