@@ -42,7 +42,7 @@ const GenderRatio = ({ data }) => (
       yAxis: {
         min: 0,
         title: {
-          text: "Odsouzených",
+          text: "Odsouzených (%)",
         },
         reversedStacks: false,
       },
@@ -85,7 +85,7 @@ const TrestTypy = ({ data }) => (
       yAxis: {
         min: 0,
         title: {
-          text: "Odsouzených",
+          text: "Odsouzených (%)",
         },
         reversedStacks: false,
       },
