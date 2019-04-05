@@ -29,9 +29,10 @@ const GenderRatio = ({ data }) => (
       },
       plotOptions: {
         series: {
-          stacking: "normal",
+          stacking: "percent",
         },
       },
+      colors: ["#577bff", "#ffa357"],
       credits: {
         enabled: false,
       },
@@ -43,14 +44,13 @@ const GenderRatio = ({ data }) => (
         title: {
           text: "Odsouzených",
         },
-      },
-      legend: {
-        reversed: true,
+        reversedStacks: false,
       },
       title: {
         text: "Pohlaví",
       },
       tooltip: {
+        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>",
         shared: true,
       },
       series: [{
@@ -73,7 +73,7 @@ const TrestTypy = ({ data }) => (
       },
       plotOptions: {
         series: {
-          stacking: "normal",
+          stacking: "percent",
         },
       },
       credits: {
@@ -87,14 +87,18 @@ const TrestTypy = ({ data }) => (
         title: {
           text: "Odsouzených",
         },
+        reversedStacks: false,
       },
       title: {
         text: "Typy trestů",
       },
       tooltip: {
+        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>",
         shared: true,
       },
-      series: data.trest1[0].map((entry, index) => ({ name: entry, data: [data.trest1[1][index]] })),
+      series: data.trest1[0]
+        .map((entry, index) => ({ name: entry, data: [data.trest1[1][index]] }))
+        .sort((a, b) => a.data[0] < b.data[0]),
     }}
   />
 );
@@ -310,7 +314,7 @@ class TrestApp extends Component {
     if (odst !== "all") requestObject.odstavec_nej = odst;
     if (drivods !== "all") requestObject.drivods_kat = `'${drivods}'`;
     if (soubeh !== "all") requestObject.jeden_tc = `'${soubeh}'`;
-    console.log(requestObject);
+    console.log(requestObject, btoa(JSON.stringify(requestObject)));
     const xhr = new XMLHttpRequest();
     const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
     xhr.open("get", url, true);
