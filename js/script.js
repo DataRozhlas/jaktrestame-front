@@ -55,10 +55,10 @@ const GenderRatio = ({ data }) => (
       },
       series: [{
         name: "Muži",
-        data: [data.pohlavi["muž"]],
+        data: [data.pohlavi[1][0]],
       }, {
         name: "Ženy",
-        data: [data.pohlavi["žena"]],
+        data: [data.pohlavi[1][1]],
       }],
     }}
   />
@@ -94,19 +94,7 @@ const TrestTypy = ({ data }) => (
       tooltip: {
         shared: true,
       },
-      series: [{
-        name: "Nepodmíněný",
-        data: [data.trest1["nepodmíněný (s dozorem)"] + data.trest1["nepodmíněný (s ostrahou)"]],
-      }, {
-        name: "Podmíněný",
-        data: [data.trest1["podmíněné odsouzení"] + data.trest1["podm\u00edn\u011bn\u00e9 odsouzen\u00ed s\u00a0dohledem"]],
-      }, {
-        name: "Obecně prospěšné práce",
-        data: [data.trest1["obecně prospěšné práce"] + data.trest1["trestní opatření – obecně prospěšné práce"]],
-      }, {
-        name: "Upuštěno",
-        data: [data.trest1["upuštění od uložení souhrnného trestu"] + data.trest1["upuštění od potrestání"]],
-      }],
+      series: data.trest1[0].map((entry, index) => ({ name: entry, data: [data.trest1[1][index]] })),
     }}
   />
 );
@@ -133,7 +121,7 @@ const AgeHisto = ({ data }) => (
         },
       },
       xAxis: {
-        categories: data.vek[1].map(num => Math.round(num)),
+        categories: data.vek[0].map(num => Math.round(num)),
       },
       yAxis: {
         min: 0,
@@ -143,7 +131,7 @@ const AgeHisto = ({ data }) => (
       },
       series: [{
         name: "Odsouzených",
-        data: data.vek[0],
+        data: data.vek[1],
       }],
     }}
   />
@@ -171,7 +159,7 @@ const NepoDelka = ({ data }) => (
         },
       },
       xAxis: {
-        categories: data.delka_nepo[1].map(num => Math.round(num)),
+        categories: data.delka_nepo[0].map(num => Math.round(num)),
       },
       yAxis: {
         min: 0,
@@ -181,7 +169,7 @@ const NepoDelka = ({ data }) => (
       },
       series: [{
         name: "Odsouzených",
-        data: data.delka_nepo[0],
+        data: data.delka_nepo[1],
       }],
     }}
   />
@@ -209,7 +197,7 @@ const PoDelka = ({ data }) => (
         },
       },
       xAxis: {
-        categories: data.delka_po[1].map(num => Math.round(num)),
+        categories: data.delka_po[0].map(num => Math.round(num)),
       },
       yAxis: {
         min: 0,
@@ -219,7 +207,7 @@ const PoDelka = ({ data }) => (
       },
       series: [{
         name: "Odsouzených",
-        data: data.delka_po[0],
+        data: data.delka_po[1],
       }],
     }}
   />
