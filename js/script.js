@@ -1,4 +1,5 @@
-﻿/* eslint-disable react/no-danger */
+﻿/* eslint-disable react/no-this-in-sfc */
+/* eslint-disable react/no-danger */
 import React, { Component } from "react";
 import { render } from "react-dom";
 import Highcharts from "highcharts";
@@ -50,7 +51,7 @@ const GenderRatio = ({ data }) => (
         text: "Pohlaví",
       },
       tooltip: {
-        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>",
+        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
         shared: true,
       },
       series: [{
@@ -93,7 +94,7 @@ const TrestTypy = ({ data }) => (
         text: "Typy trestů",
       },
       tooltip: {
-        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f}%)<br/>",
+        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
         shared: true,
       },
       series: data.trest1[0]
@@ -133,9 +134,16 @@ const AgeHisto = ({ data }) => (
           text: "Odsouzených",
         },
       },
+      tooltip: {
+        formatter() {
+          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data.vek[0][1] - data.vek[0][0])} let</span><br/>
+          <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
+        },
+      },
       series: [{
         name: "Odsouzených",
         data: data.vek[1],
+        pointPlacement: "between",
       }],
     }}
   />
@@ -164,6 +172,9 @@ const NepoDelka = ({ data }) => (
       },
       xAxis: {
         categories: data.delka_nepo[0].map(num => Math.round(num)),
+        title: {
+          text: "měsíců",
+        },
       },
       yAxis: {
         min: 0,
@@ -171,9 +182,16 @@ const NepoDelka = ({ data }) => (
           text: "Odsouzených",
         },
       },
+      tooltip: {
+        formatter() {
+          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data.delka_nepo[0][1] - data.delka_nepo[0][0])} měsíců</span><br/>
+          <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
+        },
+      },
       series: [{
         name: "Odsouzených",
         data: data.delka_nepo[1],
+        pointPlacement: "between",
       }],
     }}
   />
@@ -202,6 +220,9 @@ const PoDelka = ({ data }) => (
       },
       xAxis: {
         categories: data.delka_po[0].map(num => Math.round(num)),
+        title: {
+          text: "měsíců",
+        },
       },
       yAxis: {
         min: 0,
@@ -209,9 +230,16 @@ const PoDelka = ({ data }) => (
           text: "Odsouzených",
         },
       },
+      tooltip: {
+        formatter() {
+          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data.delka_po[0][1] - data.delka_po[0][0])} měsíců</span><br/>
+          <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
+        },
+      },
       series: [{
         name: "Odsouzených",
         data: data.delka_po[1],
+        pointPlacement: "between",
       }],
     }}
   />
