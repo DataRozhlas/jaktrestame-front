@@ -202,7 +202,8 @@ const PoDelka = ({ data }) => (
     highcharts={Highcharts}
     options={{
       chart: {
-        type: "column",
+        type: "scatter",
+        zoomType: "xy",
       },
       title: {
         text: "Délka podmíněných trestů",
@@ -210,74 +211,35 @@ const PoDelka = ({ data }) => (
       credits: {
         enabled: false,
       },
-      plotOptions: {
-        column: {
-          pointPadding: 0,
-          borderWidth: 0,
-          groupPadding: 0,
-          shadow: false,
-        },
-      },
       xAxis: {
-        categories: data.delka_po[0].map(num => Math.round(num)),
         title: {
-          text: "měsíců",
+          text: "Podmínka",
         },
       },
       yAxis: {
         min: 0,
         title: {
-          text: "Odsouzených",
+          text: "Zkušební doba",
         },
       },
       tooltip: {
         formatter() {
-          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data.delka_po[0][1] - data.delka_po[0][0])} měsíců</span><br/>
-          <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
+          return `<span style='font-size: 10px'>Podmínka: ${this.x} měsíců</span><br>
+            <span style='font-size: 10px'>Zkušební doba: ${this.y} měsíců</span><br>
+            <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${data.podminky[1][this.point.index]}</b><br>`;
         },
       },
       series: [{
         name: "Odsouzených",
-        data: data.delka_po[1],
-        pointPlacement: "between",
-      }],
-    }}
-  />
-);
-
-const PoZkusDelka = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "Délka odkladu u podmíněných trestů",
-      },
-      credits: {
-        enabled: false,
-      },
-      plotOptions: {
-        column: {
-          pointPadding: 0,
-          borderWidth: 0,
-          groupPadding: 0,
-          shadow: false,
-        },
-      },
-      xAxis: {
-        categories: data.delka_zkus_po[1].map(num => Math.round(num)),
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Odsouzených",
-        },
-      },
-      series: [{
-        name: "Odsouzených",
-        data: data.delka_zkus_po[0],
+        data: data.podminky[0].map((el, index) => {
+          const max = Math.max(...data.podminky[1].slice(0, data.podminky[1].length - 1));
+          return {
+            x: el[0],
+            y: el[1],
+            color: `rgba(74,108,141,
+             ${(data.podminky[1][index] + max/2) / max})`,
+          };
+        }),
       }],
     }}
   />
@@ -368,8 +330,8 @@ class TrestApp extends Component {
     } = this.state;
     return (
       Object.keys(paraData).length === 0
-      || Object.keys(data).length === 0
-      || Object.keys(odstData).length === 0
+        || Object.keys(data).length === 0
+        || Object.keys(odstData).length === 0
         ? <div>Načítám...</div>
         : (
           <div>
@@ -431,7 +393,6 @@ class TrestApp extends Component {
             <AgeHisto data={data} />
             <NepoDelka data={data} />
             <PoDelka data={data} />
-            {/* <PoZkusDelka data={data} /> */}
           </div>
         )
     );
