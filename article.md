@@ -1,5 +1,5 @@
 title: "Délka trestů: aplikace"
-perex: "Aplikace pro zjištění dělky trestů."
+perex: "Aplikace pro zjištění délky trestů."
 published: "21. dubna 2019"
 coverimg: https://interaktivni.rozhlas.cz/brexit/media/cover.jpg
 coverimg_note: "Foto <a href='#'>ČTK</a>"

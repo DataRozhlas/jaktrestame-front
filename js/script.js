@@ -6,6 +6,21 @@ import { render } from "react-dom";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
+const trestyCiselnik = {
+  1: "nepodmíněný trest odnětí svobody",
+  2: "podmíněný trest odnětí svobody",
+  3: "domácí vězení",
+  4: "obecně prospěšné práce",
+  5: "peněžitý trest",
+  6: "vyhoštění",
+  7: "zákaz pobytu",
+  8: "zákaz činnosti",
+  9: "zákaz řízení motorových vozidel",
+  10: "upuštění od potrestání",
+  11: "propadnutí věci",
+  12: "ostatní tresty",
+};
+
 const ParaDetails = ({ info }) => (
   <div id="para-details">
     {Object.keys(info.odst).map(odstavec => (
@@ -57,10 +72,10 @@ const GenderRatio = ({ data }) => (
       },
       series: [{
         name: "Muži",
-        data: [data.pohlavi[1][0] || 0],
+        data: [data.pohlavi[1].filter((el, index) => data.pohlavi[0][index] === "muz")[0] || 0],
       }, {
         name: "Ženy",
-        data: [data.pohlavi[1][1] || 0],
+        data: [data.pohlavi[1].filter((el, index) => data.pohlavi[0][index] === "zena")[0] || 0],
       }],
     }}
   />
@@ -99,8 +114,48 @@ const TrestTypy = ({ data }) => (
         shared: true,
       },
       series: data.trest1[0]
-        .map((entry, index) => ({ name: entry, data: [data.trest1[1][index]] }))
-        .sort((a, b) => a.data[0] < b.data[0]),
+        .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data.trest1[1][index]] }))
+        .sort((a, b) => b.data[0] - a.data[0]),
+    }}
+  />
+);
+
+const TrestDvaTypy = ({ data }) => (
+  <HighchartsReact
+    highcharts={Highcharts}
+    options={{
+      chart: {
+        type: "bar",
+      },
+      plotOptions: {
+        series: {
+          stacking: "percent",
+        },
+      },
+      credits: {
+        enabled: false,
+      },
+      xAxis: {
+        categories: [""],
+      },
+      yAxis: {
+        min: 0,
+        title: {
+          text: "Odsouzených (%)",
+        },
+        reversedStacks: false,
+      },
+      title: {
+        text: "Sekundární tresty",
+      },
+      tooltip: {
+        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
+        shared: true,
+      },
+      series: data[0]
+        .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
+        .sort((a, b) => b.data[0] - a.data[0])
+        .slice(1),
     }}
   />
 );
@@ -256,9 +311,11 @@ class TrestApp extends Component {
       drivods: "all",
       soubeh: "all",
       pohlavi: "all",
+      trest1: "all",
       paraData: {},
       odstData: {},
       data: {},
+      secondaryData: [[]],
     };
 
     this.handleSelect = this.handleSelect.bind(this);
@@ -288,9 +345,9 @@ class TrestApp extends Component {
   }
 
   // loading the paragraph data
-  loadData() {
+  loadData(secondary = false) {
     const {
-      para, year, odst, drivods, soubeh, pohlavi,
+      para, year, odst, drivods, soubeh, pohlavi, trest1,
     } = this.state;
     // the request object:
     // {"paragraf": "'196'"}
@@ -308,13 +365,15 @@ class TrestApp extends Component {
     if (drivods !== "all") requestObject.drivods_kat = `'${drivods}'`;
     if (soubeh !== "all") requestObject.jeden_tc = `'${soubeh}'`;
     if (pohlavi !== "all") requestObject.pohlavi = `'${pohlavi}'`;
+    if (trest1 !== "all") requestObject.trest1 = `'${trest1}'`;
     console.log(requestObject, btoa(JSON.stringify(requestObject)));
     const xhr = new XMLHttpRequest();
     const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
     xhr.open("get", url, true);
     xhr.onload = () => {
-      this.setState({ data: JSON.parse(xhr.responseText) });
-      console.log(this.state.data)
+      if (!secondary) this.setState({ data: JSON.parse(xhr.responseText) });
+      else this.setState({ secondaryData: JSON.parse(xhr.responseText).trest2 });
+      console.log(this.state);
     };
     xhr.send();
   }
@@ -323,14 +382,22 @@ class TrestApp extends Component {
     if (id === "para") this.setState({ odst: "all" });
     const stateChange = {};
     stateChange[id] = changeEvent.target.value;
+    stateChange.trest1 = "all";
+    stateChange.secondaryData = [[]];
     this.setState(stateChange, () => {
       this.loadData();
     });
   }
 
+  handleSecondarySelect(changeEvent) {
+    this.setState({ trest1: changeEvent.target.value }, () => {
+      this.loadData(true);
+    });
+  }
+
   render() {
     const {
-      para, data, paraData, odstData, odst, year, drivods, soubeh, pohlavi,
+      para, data, paraData, odstData, odst, year, drivods, soubeh, pohlavi, trest1, secondaryData,
     } = this.state;
     return (
       Object.keys(paraData).length === 0
@@ -392,7 +459,7 @@ class TrestApp extends Component {
                 {" Ne "}
               </form>
 
-              {pohlavi[1].length === 2 && data.pohlavi[1].every(el => el >= 10) && (
+              {data.pohlavi[1].length === 2 && data.pohlavi[1].every(el => el >= 10) && (
                 <form id="pohlavi-select">
                   <b>Pohlaví: </b>
                   <input type="radio" name="pohlavi" value="all" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "all"} />
@@ -408,6 +475,25 @@ class TrestApp extends Component {
               <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
               {pohlavi === "all" ? <GenderRatio data={data} /> : ""}
               <TrestTypy data={data} />
+
+              {data.trest1[1].some(el => el >= 10) && (
+                <form id="trest-select">
+                  <b>Primární trest:</b>
+                  <br />
+                  {data.trest1[0].filter((el, index) => data.trest1[1][index] > 10).map(el => (
+                    <span key={el}>
+                      <input type="radio" name="trest" value={el} onChange={e => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
+                      {` ${trestyCiselnik[el]} `}
+                      <br />
+                    </span>
+                  ))}
+                </form>
+              )}
+              
+              {secondaryData[0].length > 1 && (
+                <TrestDvaTypy data={secondaryData} />
+              )}
+              
               <AgeHisto data={data} />
               <NepoDelka data={data} />
               <PoDelka data={data} />
@@ -423,7 +509,7 @@ class TrestApp extends Component {
               <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
             </div>
 
-            
+
           )
         )
     );
