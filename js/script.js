@@ -1,4 +1,5 @@
-﻿/* eslint-disable react/no-this-in-sfc */
+﻿/* eslint-disable no-nested-ternary */
+/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react/no-danger */
 import React, { Component } from "react";
 import { render } from "react-dom";
@@ -237,7 +238,7 @@ const PoDelka = ({ data }) => (
             x: el[0],
             y: el[1],
             color: `rgba(74,108,141,
-             ${(data.podminky[1][index] + max/2) / max})`,
+             ${(data.podminky[1][index] + max / 2) / max})`,
           };
         }),
       }],
@@ -254,6 +255,7 @@ class TrestApp extends Component {
       year: "all",
       drivods: "all",
       soubeh: "all",
+      pohlavi: "all",
       paraData: {},
       odstData: {},
       data: {},
@@ -288,7 +290,7 @@ class TrestApp extends Component {
   // loading the paragraph data
   loadData() {
     const {
-      para, year, odst, drivods, soubeh,
+      para, year, odst, drivods, soubeh, pohlavi,
     } = this.state;
     // the request object:
     // {"paragraf": "'196'"}
@@ -297,6 +299,7 @@ class TrestApp extends Component {
     // drivods_kat: '1-2'...
     // jeden_tc: T/F (souběh)
     // 'novela'
+    // pohlavi
     const requestObject = {
       paragraf: `'${para.substring(1)}'`,
     };
@@ -304,6 +307,7 @@ class TrestApp extends Component {
     if (odst !== "all") requestObject.odstavec_nej = odst;
     if (drivods !== "all") requestObject.drivods_kat = `'${drivods}'`;
     if (soubeh !== "all") requestObject.jeden_tc = `'${soubeh}'`;
+    if (pohlavi !== "all") requestObject.pohlavi = `'${pohlavi}'`;
     console.log(requestObject, btoa(JSON.stringify(requestObject)));
     const xhr = new XMLHttpRequest();
     const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
@@ -326,7 +330,7 @@ class TrestApp extends Component {
 
   render() {
     const {
-      para, data, paraData, odstData, odst, year, drivods, soubeh,
+      para, data, paraData, odstData, odst, year, drivods, soubeh, pohlavi,
     } = this.state;
     return (
       Object.keys(paraData).length === 0
@@ -334,66 +338,93 @@ class TrestApp extends Component {
         || Object.keys(odstData).length === 0
         ? <div>Načítám...</div>
         : (
-          <div>
-            <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
-              {Object.keys(paraData).map(entry => (
-                <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
-              ))}
-            </select>
+          data.len >= 10 ? (
+            <div>
+              <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
+                {Object.keys(paraData).map(entry => (
+                  <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
+                ))}
+              </select>
 
-            <form id="year-select">
-              <b>Rok: </b>
-              <input type="radio" name="year" value="all" onChange={e => this.handleSelect("year", e)} checked={year === "all"} />
-              {" Všechny "}
-              <input type="radio" name="year" value="2015" onChange={e => this.handleSelect("year", e)} checked={year === "2015"} />
-              {" 2015 "}
-              <input type="radio" name="year" value="2016" onChange={e => this.handleSelect("year", e)} checked={year === "2016"} />
-              {" 2016 "}
-              <input type="radio" name="year" value="2017" onChange={e => this.handleSelect("year", e)} checked={year === "2017"} />
-              {" 2017 "}
-            </form>
+              <form id="year-select">
+                <b>Rok: </b>
+                <input type="radio" name="year" value="all" onChange={e => this.handleSelect("year", e)} checked={year === "all"} />
+                {" Všechny "}
+                <input type="radio" name="year" value="2015" onChange={e => this.handleSelect("year", e)} checked={year === "2015"} />
+                {" 2015 "}
+                <input type="radio" name="year" value="2016" onChange={e => this.handleSelect("year", e)} checked={year === "2016"} />
+                {" 2016 "}
+                <input type="radio" name="year" value="2017" onChange={e => this.handleSelect("year", e)} checked={year === "2017"} />
+                {" 2017 "}
+              </form>
 
-            <form id="odst-select">
-              <b>Odstavec: </b>
-              <input type="radio" name="odst" value="all" onChange={e => this.handleSelect("odst", e)} checked={odst === "all"} />
-              {" Všechny "}
-              {odstData[para.substring(1)].sort().map(entry => (
-                <span key={entry}>
-                  <input type="radio" name="odst" value={entry} onChange={e => this.handleSelect("odst", e)} checked={odst === entry.toString()} />
-                  {` ${entry} `}
-                </span>
-              ))}
-            </form>
+              <form id="odst-select">
+                <b>Odstavec: </b>
+                <input type="radio" name="odst" value="all" onChange={e => this.handleSelect("odst", e)} checked={odst === "all"} />
+                {" Všechny "}
+                {odstData[para.substring(1)].sort().map(entry => (
+                  <span key={entry}>
+                    <input type="radio" name="odst" value={entry} onChange={e => this.handleSelect("odst", e)} checked={odst === entry.toString()} />
+                    {` ${entry} `}
+                  </span>
+                ))}
+              </form>
 
-            <form id="drivods-select">
-              <b>Počet předchozích odsouzení: </b>
-              <input type="radio" name="drivods" value="all" onChange={e => this.handleSelect("drivods", e)} checked={drivods === "all"} />
-              {" Všechny "}
-              {["0", "1-2", "3-5", "6-10", ">10"].map(entry => (
-                <span key={entry}>
-                  <input type="radio" name="drivods" value={entry} onChange={e => this.handleSelect("drivods", e)} checked={drivods === entry} />
-                  {` ${entry} `}
-                </span>
-              ))}
-            </form>
+              <form id="drivods-select">
+                <b>Počet předchozích odsouzení: </b>
+                <input type="radio" name="drivods" value="all" onChange={e => this.handleSelect("drivods", e)} checked={drivods === "all"} />
+                {" Všechny "}
+                {["0", "1-2", "3-5", "6-10", ">10"].map(entry => (
+                  <span key={entry}>
+                    <input type="radio" name="drivods" value={entry} onChange={e => this.handleSelect("drivods", e)} checked={drivods === entry} />
+                    {` ${entry} `}
+                  </span>
+                ))}
+              </form>
 
-            <form id="soubeh-select">
-              <b>Souběh s jiným odsouzením: </b>
-              <input type="radio" name="soubeh" value="all" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "all"} />
-              {" Všechny "}
-              <input type="radio" name="soubeh" value="F" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "F"} />
-              {" Ano "}
-              <input type="radio" name="soubeh" value="T" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "T"} />
-              {" Ne "}
-            </form>
-            <ParaDetails para={para} info={paraData[para]} />
-            <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
-            <GenderRatio data={data} />
-            <TrestTypy data={data} />
-            <AgeHisto data={data} />
-            <NepoDelka data={data} />
-            <PoDelka data={data} />
-          </div>
+              <form id="soubeh-select">
+                <b>Souběh s jiným odsouzením: </b>
+                <input type="radio" name="soubeh" value="all" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "all"} />
+                {" Všechny "}
+                <input type="radio" name="soubeh" value="F" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "F"} />
+                {" Ano "}
+                <input type="radio" name="soubeh" value="T" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "T"} />
+                {" Ne "}
+              </form>
+
+              {pohlavi[1].length === 2 && data.pohlavi[1].every(el => el >= 10) && (
+                <form id="pohlavi-select">
+                  <b>Pohlaví: </b>
+                  <input type="radio" name="pohlavi" value="all" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "all"} />
+                  {" Vše "}
+                  <input type="radio" name="pohlavi" value="muz" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "muz"} />
+                  {" Muži "}
+                  <input type="radio" name="pohlavi" value="zena" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "zena"} />
+                  {" Ženy "}
+                </form>
+              )}
+
+              <ParaDetails para={para} info={paraData[para]} />
+              <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
+              {pohlavi === "all" ? <GenderRatio data={data} /> : ""}
+              <TrestTypy data={data} />
+              <AgeHisto data={data} />
+              <NepoDelka data={data} />
+              <PoDelka data={data} />
+            </div>
+          ) : (
+            <div>
+              <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
+                {Object.keys(paraData).map(entry => (
+                  <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
+                ))}
+              </select>
+              <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
+              <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
+            </div>
+
+            
+          )
         )
     );
   }
