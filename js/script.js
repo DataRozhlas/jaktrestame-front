@@ -459,7 +459,7 @@ class TrestApp extends Component {
                 {" Ne "}
               </form>
 
-              {data.pohlavi[1].length === 2 && data.pohlavi[1].every(el => el >= 10) && (
+              {((data.pohlavi[1].length === 2 && data.pohlavi[1].every(el => el >= 10)) || pohlavi === "muz" || pohlavi === "zena") && (
                 <form id="pohlavi-select">
                   <b>Pohlaví: </b>
                   <input type="radio" name="pohlavi" value="all" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "all"} />
