@@ -379,7 +379,16 @@ class TrestApp extends Component {
   }
 
   handleSelect(id, changeEvent) {
-    if (id === "para") this.setState({ odst: "all" });
+    if (id === "para") {
+      this.setState({
+        odst: "all",
+        rok: "all",
+        drivods: "all",
+        soubeh: "all",
+        pohlavi: "all",
+        trest1: "all",
+      });
+    }
     const stateChange = {};
     stateChange[id] = changeEvent.target.value;
     stateChange.trest1 = "all";
@@ -489,11 +498,11 @@ class TrestApp extends Component {
                   ))}
                 </form>
               )}
-              
+
               {secondaryData[0].length > 1 && (
                 <TrestDvaTypy data={secondaryData} />
               )}
-              
+
               <AgeHisto data={data} />
               <NepoDelka data={data} />
               <PoDelka data={data} />
@@ -505,11 +514,10 @@ class TrestApp extends Component {
                   <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
                 ))}
               </select>
+              <ParaDetails para={para} info={paraData[para]} />
               <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
               <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
             </div>
-
-
           )
         )
     );
