@@ -7,6 +7,7 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
 const trestyCiselnik = {
+  null: "vedlejší trest neudělen",
   1: "nepodmíněný trest odnětí svobody",
   2: "podmíněný trest odnětí svobody",
   3: "domácí vězení",
@@ -120,45 +121,48 @@ const TrestTypy = ({ data }) => (
   />
 );
 
-const TrestDvaTypy = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "bar",
-      },
-      plotOptions: {
-        series: {
-          stacking: "percent",
+const TrestDvaTypy = ({ data }) => {
+  const processedData = data[0]
+    .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
+    .sort((a, b) => b.data[0] - a.data[0]);
+  const percentageData = processedData.map(el => el.data[0] * 100 / processedData
+    .map(n => n.data[0])
+    .reduce((acc, val) => val + acc, 0));
+  console.log(percentageData);
+  return (
+    <HighchartsReact
+      highcharts={Highcharts}
+      options={{
+        chart: {
+          type: "column",
         },
-      },
-      credits: {
-        enabled: false,
-      },
-      xAxis: {
-        categories: [""],
-      },
-      yAxis: {
-        min: 0,
+        credits: {
+          enabled: false,
+        },
+        xAxis: {
+          categories: [""],
+        },
+        yAxis: {
+          min: 0,
+          title: {
+            text: "Odsouzených",
+          },
+        },
         title: {
-          text: "Odsouzených (%)",
+          text: "Vedlejší tresty",
         },
-        reversedStacks: false,
-      },
-      title: {
-        text: "Sekundární tresty",
-      },
-      tooltip: {
-        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
-        shared: true,
-      },
-      series: data[0]
-        .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
-        .sort((a, b) => b.data[0] - a.data[0])
-        .slice(1),
-    }}
-  />
-);
+        tooltip: {
+          pointFormatter() {
+            return `<span style='color:${this.color}'>${this.series.name}</span>:
+              <b>${String(Math.round(100 * percentageData[this.colorIndex]) / 100).replace(".", ",")} %</b> (${this.y})<br/>`;
+          },
+          shared: true,
+        },
+        series: processedData,
+      }}
+    />
+  );
+};
 
 const AgeHisto = ({ data }) => (
   <HighchartsReact
@@ -309,7 +313,7 @@ class TrestApp extends Component {
       odst: "all",
       year: "all",
       drivods: "all",
-      soubeh: "all",
+      soubeh: "T",
       pohlavi: "all",
       trest1: "all",
       paraData: {},
@@ -384,7 +388,7 @@ class TrestApp extends Component {
         odst: "all",
         year: "all",
         drivods: "all",
-        soubeh: "all",
+        soubeh: "T",
         pohlavi: "all",
         trest1: "all",
       });
@@ -476,23 +480,22 @@ class TrestApp extends Component {
               <input type="radio" name="pohlavi" value="zena" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "zena"} />
               {" Ženy "}
             </form>
-            
+            <div><b>Znění zákona:</b></div>
             <ParaDetails para={para} info={paraData[para]} />
             <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
 
             {data.len >= 10 ? (
               <div>
-                {pohlavi === "all" ? <GenderRatio data={data} /> : ""}
                 <TrestTypy data={data} />
 
                 {data.trest1[1].some(el => el >= 10) && (
                   <form id="trest-select">
-                    <b>Primární trest:</b>
+                    <b>Hlavní trest:</b>
                     <br />
                     {data.trest1[0].filter((el, index) => data.trest1[1][index] > 10).map(el => (
                       <span key={el}>
                         <input type="radio" name="trest" value={el} onChange={e => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
-                        {` ${trestyCiselnik[el]} `}
+                        {` ${trestyCiselnik[el]} (${data.trest1[1].filter((_, index) => data.trest1[0][index] === el)[0]}) `}
                         <br />
                       </span>
                     ))}
@@ -503,9 +506,10 @@ class TrestApp extends Component {
                   <TrestDvaTypy data={secondaryData} />
                 )}
 
-                <AgeHisto data={data} />
                 <NepoDelka data={data} />
                 <PoDelka data={data} />
+                <AgeHisto data={data} />
+                {pohlavi === "all" && <GenderRatio data={data} />}
               </div>
             ) : (
               <div>
