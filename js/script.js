@@ -362,14 +362,14 @@ class TrestApp extends Component {
     // 'novela'
     // pohlavi
     const requestObject = {
-      paragraf: `'${para.substring(1)}'`,
+      paragraf: `${para.substring(1)}`,
     };
     if (year !== "all") requestObject.rok_rozhodnuti = year;
     if (odst !== "all") requestObject.odstavec_nej = odst;
-    if (drivods !== "all") requestObject.drivods_kat = `'${drivods}'`;
-    if (soubeh !== "all") requestObject.jeden_tc = `'${soubeh}'`;
-    if (pohlavi !== "all") requestObject.pohlavi = `'${pohlavi}'`;
-    if (trest1 !== "all") requestObject.trest1 = `'${trest1}'`;
+    if (drivods !== "all") requestObject.drivods_kat = `${drivods}`;
+    if (soubeh !== "all") requestObject.jeden_tc = `${soubeh}`;
+    if (pohlavi !== "all") requestObject.pohlavi = `${pohlavi}`;
+    if (trest1 !== "all") requestObject.trest1 = `${trest1}`;
     console.log(requestObject, btoa(JSON.stringify(requestObject)));
     const xhr = new XMLHttpRequest();
     const url = `https://4hxdh5k7n3.execute-api.eu-west-1.amazonaws.com/prod?h=${btoa(JSON.stringify(requestObject))}`;
