@@ -382,7 +382,7 @@ class TrestApp extends Component {
     if (id === "para") {
       this.setState({
         odst: "all",
-        rok: "all",
+        year: "all",
         drivods: "all",
         soubeh: "all",
         pohlavi: "all",
@@ -414,111 +414,105 @@ class TrestApp extends Component {
         || Object.keys(odstData).length === 0
         ? <div>Načítám...</div>
         : (
-          data.len >= 10 ? (
-            <div>
-              <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
-                {Object.keys(paraData).map(entry => (
-                  <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
-                ))}
-              </select>
+          <div>
+            <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
+              {Object.keys(paraData).map(entry => (
+                <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
+              ))}
+            </select>
 
-              <form id="year-select">
-                <b>Rok: </b>
-                <input type="radio" name="year" value="all" onChange={e => this.handleSelect("year", e)} checked={year === "all"} />
-                {" Všechny "}
-                <input type="radio" name="year" value="2015" onChange={e => this.handleSelect("year", e)} checked={year === "2015"} />
-                {" 2015 "}
-                <input type="radio" name="year" value="2016" onChange={e => this.handleSelect("year", e)} checked={year === "2016"} />
-                {" 2016 "}
-                <input type="radio" name="year" value="2017" onChange={e => this.handleSelect("year", e)} checked={year === "2017"} />
-                {" 2017 "}
-              </form>
+            <form id="year-select">
+              <b>Rok: </b>
+              <input type="radio" name="year" value="all" onChange={e => this.handleSelect("year", e)} checked={year === "all"} />
+              {" Všechny "}
+              <input type="radio" name="year" value="2015" onChange={e => this.handleSelect("year", e)} checked={year === "2015"} />
+              {" 2015 "}
+              <input type="radio" name="year" value="2016" onChange={e => this.handleSelect("year", e)} checked={year === "2016"} />
+              {" 2016 "}
+              <input type="radio" name="year" value="2017" onChange={e => this.handleSelect("year", e)} checked={year === "2017"} />
+              {" 2017 "}
+            </form>
 
-              <form id="odst-select">
-                <b>Odstavec: </b>
-                <input type="radio" name="odst" value="all" onChange={e => this.handleSelect("odst", e)} checked={odst === "all"} />
-                {" Všechny "}
-                {odstData[para.substring(1)].sort().map(entry => (
-                  <span key={entry}>
-                    <input type="radio" name="odst" value={entry} onChange={e => this.handleSelect("odst", e)} checked={odst === entry.toString()} />
-                    {` ${entry} `}
-                  </span>
-                ))}
-              </form>
+            <form id="odst-select">
+              <b>Odstavec: </b>
+              <input type="radio" name="odst" value="all" onChange={e => this.handleSelect("odst", e)} checked={odst === "all"} />
+              {" Všechny "}
+              {odstData[para.substring(1)].sort().map(entry => (
+                <span key={entry}>
+                  <input type="radio" name="odst" value={entry} onChange={e => this.handleSelect("odst", e)} checked={odst === entry.toString()} />
+                  {` ${entry} `}
+                </span>
+              ))}
+            </form>
 
-              <form id="drivods-select">
-                <b>Počet předchozích odsouzení: </b>
-                <input type="radio" name="drivods" value="all" onChange={e => this.handleSelect("drivods", e)} checked={drivods === "all"} />
-                {" Všechny "}
-                {["0", "1-2", "3-5", "6-10", ">10"].map(entry => (
-                  <span key={entry}>
-                    <input type="radio" name="drivods" value={entry} onChange={e => this.handleSelect("drivods", e)} checked={drivods === entry} />
-                    {` ${entry} `}
-                  </span>
-                ))}
-              </form>
+            <form id="drivods-select">
+              <b>Počet předchozích odsouzení: </b>
+              <input type="radio" name="drivods" value="all" onChange={e => this.handleSelect("drivods", e)} checked={drivods === "all"} />
+              {" Všechny "}
+              {["0", "1-2", "3-5", "6-10", ">10"].map(entry => (
+                <span key={entry}>
+                  <input type="radio" name="drivods" value={entry} onChange={e => this.handleSelect("drivods", e)} checked={drivods === entry} />
+                  {` ${entry} `}
+                </span>
+              ))}
+            </form>
 
-              <form id="soubeh-select">
-                <b>Souběh s jiným odsouzením: </b>
-                <input type="radio" name="soubeh" value="all" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "all"} />
-                {" Všechny "}
-                <input type="radio" name="soubeh" value="F" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "F"} />
-                {" Ano "}
-                <input type="radio" name="soubeh" value="T" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "T"} />
-                {" Ne "}
-              </form>
+            <form id="soubeh-select">
+              <b>Souběh s jiným odsouzením: </b>
+              <input type="radio" name="soubeh" value="all" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "all"} />
+              {" Všechny "}
+              <input type="radio" name="soubeh" value="F" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "F"} />
+              {" Ano "}
+              <input type="radio" name="soubeh" value="T" onChange={e => this.handleSelect("soubeh", e)} checked={soubeh === "T"} />
+              {" Ne "}
+            </form>
 
-              {((data.pohlavi[1].length === 2 && data.pohlavi[1].every(el => el >= 10)) || pohlavi === "muz" || pohlavi === "zena") && (
-                <form id="pohlavi-select">
-                  <b>Pohlaví: </b>
-                  <input type="radio" name="pohlavi" value="all" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "all"} />
-                  {" Vše "}
-                  <input type="radio" name="pohlavi" value="muz" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "muz"} />
-                  {" Muži "}
-                  <input type="radio" name="pohlavi" value="zena" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "zena"} />
-                  {" Ženy "}
-                </form>
-              )}
+            <form id="pohlavi-select">
+              <b>Pohlaví: </b>
+              <input type="radio" name="pohlavi" value="all" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "all"} />
+              {" Vše "}
+              <input type="radio" name="pohlavi" value="muz" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "muz"} />
+              {" Muži "}
+              <input type="radio" name="pohlavi" value="zena" onChange={e => this.handleSelect("pohlavi", e)} checked={pohlavi === "zena"} />
+              {" Ženy "}
+            </form>
+            
+            <ParaDetails para={para} info={paraData[para]} />
+            <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
 
-              <ParaDetails para={para} info={paraData[para]} />
-              <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
-              {pohlavi === "all" ? <GenderRatio data={data} /> : ""}
-              <TrestTypy data={data} />
+            {data.len >= 10 ? (
+              <div>
+                {pohlavi === "all" ? <GenderRatio data={data} /> : ""}
+                <TrestTypy data={data} />
 
-              {data.trest1[1].some(el => el >= 10) && (
-                <form id="trest-select">
-                  <b>Primární trest:</b>
-                  <br />
-                  {data.trest1[0].filter((el, index) => data.trest1[1][index] > 10).map(el => (
-                    <span key={el}>
-                      <input type="radio" name="trest" value={el} onChange={e => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
-                      {` ${trestyCiselnik[el]} `}
-                      <br />
-                    </span>
-                  ))}
-                </form>
-              )}
+                {data.trest1[1].some(el => el >= 10) && (
+                  <form id="trest-select">
+                    <b>Primární trest:</b>
+                    <br />
+                    {data.trest1[0].filter((el, index) => data.trest1[1][index] > 10).map(el => (
+                      <span key={el}>
+                        <input type="radio" name="trest" value={el} onChange={e => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
+                        {` ${trestyCiselnik[el]} `}
+                        <br />
+                      </span>
+                    ))}
+                  </form>
+                )}
 
-              {secondaryData[0].length > 1 && (
-                <TrestDvaTypy data={secondaryData} />
-              )}
+                {secondaryData[0].length > 1 && (
+                  <TrestDvaTypy data={secondaryData} />
+                )}
 
-              <AgeHisto data={data} />
-              <NepoDelka data={data} />
-              <PoDelka data={data} />
-            </div>
-          ) : (
-            <div>
-              <select className="select-box" defaultValue={para} onChange={e => this.handleSelect("para", e)}>
-                {Object.keys(paraData).map(entry => (
-                  <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
-                ))}
-              </select>
-              <ParaDetails para={para} info={paraData[para]} />
-              <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
-              <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
-            </div>
-          )
+                <AgeHisto data={data} />
+                <NepoDelka data={data} />
+                <PoDelka data={data} />
+              </div>
+            ) : (
+              <div>
+                <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
+              </div>
+            )}
+          </div>
         )
     );
   }
