@@ -6,7 +6,9 @@ module.exports = {
     path: path.resolve(__dirname),
     filename: "output.js",
   },
-
+  resolve: {
+    mainFields: ["svelte", "browser", "module", "main"],
+  },
   node: {
     fs: "empty",
   },
@@ -15,12 +17,19 @@ module.exports = {
     rules: [
       {
         test: /\.js$/,
-        exclude: /(node_modules|bower_components)/,
+        exclude: /node_modules/,
         use: {
           loader: "babel-loader",
           options: {
-            presets: ["@babel/preset-env", "@babel/preset-react"],
+            presets: ["@babel/preset-env"],
           },
+        },
+      },
+      {
+        test: /\.svelte$/,
+        exclude: /node_modules/,
+        use: {
+          loader: "svelte-loader",
         },
       },
     ],
