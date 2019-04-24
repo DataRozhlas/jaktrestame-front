@@ -1,4 +1,5 @@
-﻿/* eslint-disable no-nested-ternary */
+﻿/* eslint-disable no-unused-expressions */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
 import React, { Component } from "react";
 import { render } from "react-dom";
@@ -97,7 +98,23 @@ class TrestApp extends Component {
     xhr.open("get", url, true);
     xhr.onload = () => {
       if (!secondary) this.setState({ data: JSON.parse(xhr.responseText) });
-      else this.setState({ secondaryData: JSON.parse(xhr.responseText).trest2 });
+      else {
+        // sekundarni tresty: null z trest2, ostatní součet trest2...5
+        const data = JSON.parse(xhr.responseText);
+        const secondarySum = {};
+        data.trest2[0].forEach((el, index) => {
+          secondarySum[el] = data.trest2[1][index];
+        });
+
+        [data.trest3, data.trest4, data.trest5].forEach(trest => trest[0].forEach((el, index) => {
+          if (el !== null) {
+            secondarySum[el]
+              ? secondarySum[el] += trest[1][index]
+              : secondarySum[el] = trest[1][index];
+          }
+        }));
+        this.setState({ secondaryData: secondarySum });
+      }
       console.log(this.state);
     };
     xhr.send();
@@ -223,7 +240,7 @@ class TrestApp extends Component {
                   </form>
                 )}
 
-                {secondaryData[0].length > 1 && (
+                {Object.keys(secondaryData).length > 1 && (
                   <GrafTrestDva data={secondaryData} />
                 )}
 
