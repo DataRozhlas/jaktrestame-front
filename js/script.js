@@ -1,26 +1,14 @@
 ﻿/* eslint-disable no-nested-ternary */
-/* eslint-disable react/no-this-in-sfc */
 /* eslint-disable react/no-danger */
 import React, { Component } from "react";
 import { render } from "react-dom";
-import Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
-
-const trestyCiselnik = {
-  null: "vedlejší trest neudělen",
-  1: "nepodmíněný trest odnětí svobody",
-  2: "podmíněný trest odnětí svobody",
-  3: "domácí vězení",
-  4: "obecně prospěšné práce",
-  5: "peněžitý trest",
-  6: "vyhoštění",
-  7: "zákaz pobytu",
-  8: "zákaz činnosti",
-  9: "zákaz řízení motorových vozidel",
-  10: "upuštění od potrestání",
-  11: "propadnutí věci",
-  12: "ostatní tresty",
-};
+import { trestyCiselnik } from "./trestyCiselnik";
+import { GrafGender } from "./grafGender";
+import { GrafTrest } from "./grafTrest";
+import { GrafTrestDva } from "./grafTrestDva";
+import { GrafVek } from "./grafVek";
+import { GrafNepodminene } from "./grafNepodminene";
+import { GrafPodminka } from "./grafPodminka";
 
 const ParaDetails = ({ info }) => (
   <div id="para-details">
@@ -36,273 +24,6 @@ const ParaDetails = ({ info }) => (
       </div>
     ))}
   </div>
-);
-
-const GenderRatio = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "bar",
-      },
-      plotOptions: {
-        series: {
-          stacking: "percent",
-        },
-      },
-      colors: ["#577bff", "#ffa357"],
-      credits: {
-        enabled: false,
-      },
-      xAxis: {
-        categories: [""],
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Odsouzených (%)",
-        },
-        reversedStacks: false,
-      },
-      title: {
-        text: "Pohlaví",
-      },
-      tooltip: {
-        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
-        shared: true,
-      },
-      series: [{
-        name: "Muži",
-        data: [data.pohlavi[1].filter((el, index) => data.pohlavi[0][index] === "muz")[0] || 0],
-      }, {
-        name: "Ženy",
-        data: [data.pohlavi[1].filter((el, index) => data.pohlavi[0][index] === "zena")[0] || 0],
-      }],
-    }}
-  />
-);
-
-const TrestTypy = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "bar",
-      },
-      plotOptions: {
-        series: {
-          stacking: "percent",
-        },
-      },
-      credits: {
-        enabled: false,
-      },
-      xAxis: {
-        categories: [""],
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Odsouzených (%)",
-        },
-        reversedStacks: false,
-      },
-      title: {
-        text: "Typy trestů",
-      },
-      tooltip: {
-        pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
-        shared: true,
-      },
-      series: data.trest1[0]
-        .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data.trest1[1][index]] }))
-        .sort((a, b) => b.data[0] - a.data[0]),
-    }}
-  />
-);
-
-const TrestDvaTypy = ({ data }) => {
-  const processedData = data[0]
-    .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
-    .sort((a, b) => b.data[0] - a.data[0]);
-  const percentageData = processedData.map(el => el.data[0] * 100 / processedData
-    .map(n => n.data[0])
-    .reduce((acc, val) => val + acc, 0));
-  console.log(percentageData);
-  return (
-    <HighchartsReact
-      highcharts={Highcharts}
-      options={{
-        chart: {
-          type: "column",
-        },
-        credits: {
-          enabled: false,
-        },
-        xAxis: {
-          categories: [""],
-        },
-        yAxis: {
-          min: 0,
-          title: {
-            text: "Odsouzených",
-          },
-        },
-        title: {
-          text: "Vedlejší tresty",
-        },
-        tooltip: {
-          pointFormatter() {
-            return `<span style='color:${this.color}'>${this.series.name}</span>:
-              <b>${String(Math.round(100 * percentageData[this.colorIndex]) / 100).replace(".", ",")} %</b> (${this.y})<br/>`;
-          },
-          shared: true,
-        },
-        series: processedData,
-      }}
-    />
-  );
-};
-
-const AgeHisto = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "Věk",
-      },
-      credits: {
-        enabled: false,
-      },
-      plotOptions: {
-        column: {
-          pointPadding: 0,
-          borderWidth: 0,
-          groupPadding: 0,
-          shadow: false,
-        },
-      },
-      xAxis: {
-        categories: data.vek[0].map(num => Math.round(num)),
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Odsouzených",
-        },
-      },
-      tooltip: {
-        formatter() {
-          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data.vek[0][1] - data.vek[0][0])} let</span><br/>
-          <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
-        },
-      },
-      series: [{
-        name: "Odsouzených",
-        data: data.vek[1],
-        pointPlacement: "between",
-      }],
-    }}
-  />
-);
-
-const NepoDelka = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "column",
-      },
-      title: {
-        text: "Délka nepodmíněných trestů",
-      },
-      credits: {
-        enabled: false,
-      },
-      plotOptions: {
-        column: {
-          pointPadding: 0,
-          borderWidth: 0,
-          groupPadding: 0,
-          shadow: false,
-        },
-      },
-      xAxis: {
-        categories: data.delka_nepo[0].map(num => Math.round(num)),
-        title: {
-          text: "měsíců",
-        },
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Odsouzených",
-        },
-      },
-      tooltip: {
-        formatter() {
-          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data.delka_nepo[0][1] - data.delka_nepo[0][0])} měsíců</span><br/>
-          <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
-        },
-      },
-      series: [{
-        name: "Odsouzených",
-        data: data.delka_nepo[1],
-        pointPlacement: "between",
-      }],
-    }}
-  />
-);
-
-const PoDelka = ({ data }) => (
-  <HighchartsReact
-    highcharts={Highcharts}
-    options={{
-      chart: {
-        type: "scatter",
-        zoomType: "xy",
-      },
-      title: {
-        text: "Délka podmíněných trestů",
-      },
-      credits: {
-        enabled: false,
-      },
-      xAxis: {
-        title: {
-          text: "Podmínka",
-        },
-      },
-      yAxis: {
-        min: 0,
-        title: {
-          text: "Zkušební doba",
-        },
-      },
-      tooltip: {
-        formatter() {
-          return `<span style='font-size: 10px'>Podmínka: ${this.x} měsíců</span><br>
-            <span style='font-size: 10px'>Zkušební doba: ${this.y} měsíců</span><br>
-            <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${data.podminky[1][this.point.index]}</b><br>`;
-        },
-      },
-      series: [{
-        name: "Odsouzených",
-        data: data.podminky[0].map((el, index) => {
-          const max = Math.max(...data.podminky[1].slice(0, data.podminky[1].length - 1));
-          return {
-            x: el[0],
-            y: el[1],
-            color: `rgba(74,108,141,
-             ${(data.podminky[1][index] + max / 2) / max})`,
-          };
-        }),
-      }],
-    }}
-  />
 );
 
 class TrestApp extends Component {
@@ -484,15 +205,15 @@ class TrestApp extends Component {
             <ParaDetails para={para} info={paraData[para]} />
             <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
 
-            {data.len >= 10 ? (
+            {data.len >= 5 ? (
               <div>
-                <TrestTypy data={data} />
+                <GrafTrest data={data.trest1} />
 
-                {data.trest1[1].some(el => el >= 10) && (
+                {data.trest1[1].some(el => el >= 5) && (
                   <form id="trest-select">
                     <b>Hlavní trest:</b>
                     <br />
-                    {data.trest1[0].filter((el, index) => data.trest1[1][index] > 10).map(el => (
+                    {data.trest1[0].filter((el, index) => data.trest1[1][index] > 5).map(el => (
                       <span key={el}>
                         <input type="radio" name="trest" value={el} onChange={e => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
                         {` ${trestyCiselnik[el]} (${data.trest1[1].filter((_, index) => data.trest1[0][index] === el)[0]}) `}
@@ -503,13 +224,13 @@ class TrestApp extends Component {
                 )}
 
                 {secondaryData[0].length > 1 && (
-                  <TrestDvaTypy data={secondaryData} />
+                  <GrafTrestDva data={secondaryData} />
                 )}
 
-                <NepoDelka data={data} />
-                <PoDelka data={data} />
-                <AgeHisto data={data} />
-                {pohlavi === "all" && <GenderRatio data={data} />}
+                <GrafNepodminene data={data.delka_nepo} />
+                <GrafPodminka data={data.podminky} />
+                <GrafVek data={data.vek} />
+                {pohlavi === "all" && <GrafGender data={data.pohlavi} />}
               </div>
             ) : (
               <div>
