@@ -1,0 +1,11 @@
+.select-box {
+  max-width: 100%;
+}
+
+#para-details {
+  font-size: smaller;
+}
+
+#histo {
+  display: flex;
+}
