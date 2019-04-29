@@ -5,14 +5,13 @@ import HighchartsReact from "highcharts-react-official";
 import { trestyCiselnik } from "./trestyCiselnik";
 
 export const GrafTrestDva = ({ data }) => {
-  const processedData = Object.keys(data)
-    .map(entry => ({ name: trestyCiselnik[entry], data: [data[entry]] }))
+  const processedData = data[0]
+    .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
     .sort((a, b) => b.data[0] - a.data[0]);
-  /* na procenta se neprevadi kvuli souctu trest2, trest3...
   const percentageData = processedData.map(el => el.data[0] * 100 / processedData
     .map(n => n.data[0])
     .reduce((acc, val) => val + acc, 0));
-  */
+
   return (
     <HighchartsReact
       highcharts={Highcharts}
@@ -36,12 +35,10 @@ export const GrafTrestDva = ({ data }) => {
           text: "Vedlejší tresty",
         },
         tooltip: {
-          /*
           pointFormatter() {
-             return `<span style='color:${this.color}'>${this.series.name}</span>:
+            return `<span style='color:${this.color}'>${this.series.name}</span>:
               <b>${String(Math.round(100 * percentageData[this.colorIndex]) / 100).replace(".", ",")} %</b> (${this.y})<br/>`;
           },
-          */
           shared: true,
         },
         series: processedData,

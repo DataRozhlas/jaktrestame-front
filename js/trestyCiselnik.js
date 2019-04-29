@@ -12,6 +12,7 @@ export const trestyCiselnik = {
   10: "upuštění od potrestání",
   11: "propadnutí věci",
   12: "ostatní tresty",
+  13: "bez vedlejšího trestu",
 };
 
 export default trestyCiselnik;
