@@ -226,7 +226,7 @@ class TrestApp extends Component {
 
                 {data.trest1[1].some(el => el >= 5) && (
                   <form id="trest-select">
-                    <b>Hlavní trest:</b>
+                    <b>Pro vedlejší tresty vyberte hlavní trest:</b>
                     <br />
                     {data.trest1[0].filter((el, index) => data.trest1[1][index] > 5).map(el => (
                       <span key={el}>

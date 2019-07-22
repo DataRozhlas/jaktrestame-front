@@ -19,7 +19,7 @@ export const GrafPodminka = ({ data }) => (
       },
       xAxis: {
         title: {
-          text: "Podmínka",
+          text: "měsíců",
         },
       },
       yAxis: {
