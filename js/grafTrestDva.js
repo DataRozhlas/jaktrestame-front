@@ -5,6 +5,7 @@ import HighchartsReact from "highcharts-react-official";
 import { trestyCiselnik } from "./trestyCiselnik";
 
 export const GrafTrestDva = ({ data }) => {
+  console.log(data)
   const processedData = data[0]
     .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
     .sort((a, b) => b.data[0] - a.data[0]);

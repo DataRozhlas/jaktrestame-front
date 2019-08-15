@@ -18,11 +18,13 @@ export const GrafPodminka = ({ data }) => (
         enabled: false,
       },
       xAxis: {
+        tickInterval: 12,
         title: {
           text: "měsíců",
         },
       },
       yAxis: {
+        tickInterval: 12,
         min: 0,
         title: {
           text: "Zkušební doba",
@@ -40,10 +42,10 @@ export const GrafPodminka = ({ data }) => (
         data: data[0].map((el, index) => {
           const max = Math.max(...data[1].slice(0, data[1].length - 1));
           return {
-            x: el[0],
-            y: el[1],
+            x: el[0], //+ Math.random() - 0.5, //random jitter 0.5 v obou směrech
+            y: el[1], // + Math.random() - 0.5,
             color: `rgba(74,108,141,
-             ${(data[1][index] + max / 2) / max})`,
+             ${ ((data[1][index] + max / 2) / max) * 0.7 })`, //jemnejsi barvy
           };
         }),
       }],
