@@ -4,13 +4,28 @@ import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { trestyCiselnik } from "./trestyCiselnik";
 
+// TODO nesčítat beztresty! 
+
 export const GrafTrestDva = ({ data }) => {
-  const processedData = data[0]
-    .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
+  function toObj(arr) {
+    return arr[0].reduce((acc, el, idx) => {
+      if (!acc[el]) return ({ ...acc, [el]: arr[1][idx] });
+      return ({ ...acc, [el]: acc[el] + arr[1][idx] });
+    }, {});
+  }
+  const tresty = ["trest2", "trest3", "trest4", "trest5"];
+  const trestySum = [
+    [].concat(...tresty.map(trest => data[trest][0])),
+    [].concat(...tresty.map(trest => data[trest][1])),
+  ];
+  const trestyObj = toObj(trestySum);
+
+
+  const processedData = Object.entries(trestyObj)
+    .map(entry => ({ name: trestyCiselnik[entry[0]], data: [entry[1]] }))
     .sort((a, b) => b.data[0] - a.data[0]);
-  const percentageData = processedData.map(el => el.data[0] * 100 / processedData
-    .map(n => n.data[0])
-    .reduce((acc, val) => val + acc, 0));
+
+  const percentageData = processedData.map(el => el.data[0] * 100 / data.trest1[1][0]);
 
   return (
     <HighchartsReact

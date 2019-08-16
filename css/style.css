@@ -2,8 +2,13 @@
   max-width: 100%;
 }
 
-#para-details {
+.para-details {
   font-size: smaller;
+}
+
+.para-src {
+  font-size: smaller;
+  text-align: right;
 }
 
 #histo {

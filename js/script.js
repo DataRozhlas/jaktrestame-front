@@ -10,9 +10,15 @@ import { GrafTrestDva } from "./grafTrestDva";
 import { GrafVek } from "./grafVek";
 import { GrafNepodminene } from "./grafNepodminene";
 import { GrafPodminka } from "./grafPodminka";
+import { GrafOps } from "./grafOps";
+
+/*
+  TODO:
+    - grafNepodminene a grafOps jako jeden komponent
+*/
 
 const ParaDetails = ({ info }) => (
-  <div id="para-details">
+  <div className="para-details">
     {Object.keys(info.odst).map(odstavec => (
       <div key={odstavec}>
         <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec].text }} />
@@ -24,6 +30,10 @@ const ParaDetails = ({ info }) => (
         ))}
       </div>
     ))}
+    <div className="para-src">
+      {"Zdroj: "}
+      <a href="https://zakonyprolidi.cz">zakonyprolidi.cz</a>
+    </div>
   </div>
 );
 
@@ -41,7 +51,7 @@ class TrestApp extends Component {
       paraData: {},
       odstData: {},
       data: {},
-      secondaryData: [[]],
+      secondaryData: {},
     };
   }
 
@@ -95,14 +105,15 @@ class TrestApp extends Component {
     xhr.open("get", url, true);
     xhr.onload = () => {
       if (!secondary) this.setState({ data: JSON.parse(xhr.responseText) });
-      else this.setState({ secondaryData: JSON.parse(xhr.responseText).trest2 });
-      console.log(this.state);
+      else this.setState({ secondaryData: JSON.parse(xhr.responseText) });
+      console.log(this.state)
     };
     xhr.send();
   }
 
   handleParaSelect(changeEvent) {
-    const newOdst = this.state.odstData[changeEvent.target.value.substring(1)].sort().map(el => String(el));
+    const { odstData } = this.state;
+    const newOdst = odstData[changeEvent.target.value.substring(1)].sort().map(el => String(el));
     this.setState({
       para: changeEvent.target.value,
       odst: newOdst,
@@ -111,7 +122,7 @@ class TrestApp extends Component {
       soubeh: ["T"],
       pohlavi: ["muz", "zena"],
       trest1: "all",
-      secondaryData: [[]],
+      secondaryData: {},
     }, () => this.loadData());
   }
 
@@ -137,7 +148,7 @@ class TrestApp extends Component {
       : [...state[id], changeEvent.target.value];
     if (stateChange[id].length !== 0) {
       stateChange.trest1 = "all";
-      stateChange.secondaryData = [[]];
+      stateChange.secondaryData = {};
       this.setState(stateChange, () => this.loadData());
     }
   }
@@ -238,20 +249,20 @@ class TrestApp extends Component {
                   </form>
                 )}
 
-                {Object.keys(secondaryData).length > 1 && (
-                  <GrafTrestDva data={secondaryData} />
-                )}
+                {Object.keys(secondaryData).length > 1 && ( <GrafTrestDva data={secondaryData} />)}
 
-                <GrafNepodminene data={data.delka_nepo} />
-                <GrafPodminka data={data.podminky} />
+                {data.delka_nepo[1].length > 0 && (<GrafNepodminene data={data.delka_nepo} />)}
+                {data.podminky[1].length > 0 && (<GrafPodminka data={data.podminky} />)}
+                {data.delka_ops[1].length > 0 && (<GrafOps data={data.delka_ops} />)}
+
                 <GrafVek data={data.vek} />
                 {pohlavi.length === 2 && <GrafGender data={data.pohlavi} />}
               </div>
             ) : (
-              <div>
-                <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
-              </div>
-            )}
+                <div>
+                  <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
+                </div>
+              )}
           </div>
         )
     );
