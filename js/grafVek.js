@@ -25,6 +25,7 @@ export const GrafVek = ({ data }) => (
         },
       },
       xAxis: {
+        tickInterval: 1,
         categories: data[0].map(num => Math.round(num)),
       },
       yAxis: {

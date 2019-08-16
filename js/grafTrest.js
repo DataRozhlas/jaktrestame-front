@@ -29,7 +29,7 @@ export const GrafTrest = ({ data }) => (
         reversedStacks: false,
       },
       title: {
-        text: "Typy trestů",
+        text: "Hlavní trest",
       },
       tooltip: {
         pointFormat: "<span style='color:{series.color}'>{series.name}</span>: <b>{point.y}</b> ({point.percentage:.0f} %)<br/>",
