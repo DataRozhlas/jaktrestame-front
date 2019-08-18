@@ -1,10 +1,9 @@
 /* eslint-disable react/no-this-in-sfc */
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { trestyCiselnik } from "./trestyCiselnik";
-
-// TODO nesčítat beztresty! 
 
 export const GrafTrestDva = ({ data }) => {
   function toObj(arr) {
@@ -20,6 +19,8 @@ export const GrafTrestDva = ({ data }) => {
   ];
   const trestyObj = toObj(trestySum);
 
+  // beztrest jen z trest2
+  trestyObj[13] = data.trest2[1][data.trest2[0].indexOf(13)];
 
   const processedData = Object.entries(trestyObj)
     .map(entry => ({ name: trestyCiselnik[entry[0]], data: [entry[1]] }))

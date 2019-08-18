@@ -1,4 +1,5 @@
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 

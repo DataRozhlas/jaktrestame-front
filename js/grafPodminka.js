@@ -1,5 +1,6 @@
 /* eslint-disable react/no-this-in-sfc */
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
@@ -42,10 +43,10 @@ export const GrafPodminka = ({ data }) => (
         data: data[0].map((el, index) => {
           const max = Math.max(...data[1].slice(0, data[1].length - 1));
           return {
-            x: el[0], //+ Math.random() - 0.5, //random jitter 0.5 v obou směrech
+            x: el[0], // + Math.random() - 0.5, //random jitter 0.5 v obou směrech
             y: el[1], // + Math.random() - 0.5,
             color: `rgba(74,108,141,
-             ${ ((data[1][index] + max / 2) / max) * 0.7 })`, //jemnejsi barvy
+             ${((data[1][index] + max / 2) / max) * 0.7})`, // jemnejsi barvy
           };
         }),
       }],

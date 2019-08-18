@@ -1,21 +1,15 @@
 ﻿/* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
-import React, { Component } from "react";
-import { render } from "react-dom";
+/** @jsx h */
+import { h, Component, render } from "preact";
+import "./byeie"; // loučíme se s IE
 import { trestyCiselnik } from "./trestyCiselnik";
 import { GrafGender } from "./grafGender";
 import { GrafTrest } from "./grafTrest";
 import { GrafTrestDva } from "./grafTrestDva";
-import { GrafVek } from "./grafVek";
-import { GrafNepodminene } from "./grafNepodminene";
+import { GrafBar } from "./grafBar";
 import { GrafPodminka } from "./grafPodminka";
-import { GrafOps } from "./grafOps";
-
-/*
-  TODO:
-    - grafNepodminene a grafOps jako jeden komponent
-*/
 
 const ParaDetails = ({ info }) => (
   <div className="para-details">
@@ -106,7 +100,7 @@ class TrestApp extends Component {
     xhr.onload = () => {
       if (!secondary) this.setState({ data: JSON.parse(xhr.responseText) });
       else this.setState({ secondaryData: JSON.parse(xhr.responseText) });
-      console.log(this.state)
+      console.log(this.state);
     };
     xhr.send();
   }
@@ -249,20 +243,20 @@ class TrestApp extends Component {
                   </form>
                 )}
 
-                {Object.keys(secondaryData).length > 1 && ( <GrafTrestDva data={secondaryData} />)}
+                {Object.keys(secondaryData).length > 1 && (<GrafTrestDva data={secondaryData} />)}
 
-                {data.delka_nepo[1].length > 0 && (<GrafNepodminene data={data.delka_nepo} />)}
+                {data.delka_nepo[1].length > 0 && (<GrafBar data={data.delka_nepo} title="Délka nepodmíněných trestů" unit="měsíců" />)}
                 {data.podminky[1].length > 0 && (<GrafPodminka data={data.podminky} />)}
-                {data.delka_ops[1].length > 0 && (<GrafOps data={data.delka_ops} />)}
+                {data.delka_ops[1].length > 0 && (<GrafBar data={data.delka_ops} title="Délka obecně prospěšných prací" unit="hodin" />)}
 
-                <GrafVek data={data.vek} />
+                <GrafBar data={data.vek} title="Věk" unit="let" />
                 {pohlavi.length === 2 && <GrafGender data={data.pohlavi} />}
               </div>
             ) : (
-                <div>
-                  <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
-                </div>
-              )}
+              <div>
+                <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
+              </div>
+            )}
           </div>
         )
     );

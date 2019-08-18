@@ -1,9 +1,10 @@
 /* eslint-disable react/no-this-in-sfc */
-import React from "react";
+/** @jsx h */
+import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-export const GrafVek = ({ data }) => (
+export const GrafBar = ({ data, title, unit }) => (
   <HighchartsReact
     highcharts={Highcharts}
     options={{
@@ -11,7 +12,7 @@ export const GrafVek = ({ data }) => (
         type: "column",
       },
       title: {
-        text: "Věk",
+        text: title,
       },
       credits: {
         enabled: false,
@@ -25,8 +26,10 @@ export const GrafVek = ({ data }) => (
         },
       },
       xAxis: {
-        tickInterval: 1,
         categories: data[0].map(num => Math.round(num)),
+        title: {
+          text: unit,
+        },
       },
       yAxis: {
         min: 0,
@@ -36,7 +39,7 @@ export const GrafVek = ({ data }) => (
       },
       tooltip: {
         formatter() {
-          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data[0][1] - data[0][0])} let</span><br/>
+          return `<span style='font-size: 10px'>${this.x}-${Math.round(this.x + data[0][1] - data[0][0])} ${unit}</span><br/>
           <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${this.y}</b><br/>`;
         },
       },
@@ -49,4 +52,5 @@ export const GrafVek = ({ data }) => (
   />
 );
 
-export default GrafVek;
+
+export default GrafBar;

@@ -1,6 +1,6 @@
 const fs = require("fs");
 const md = require("marked");
-const yaml = require("node-yaml").parse;
+const yaml = require("js-yaml").safeLoad;
 const webpack = require("webpack");
 const CleanCSS = require("clean-css");
 const webpackConfig = require("./webpack.config");
@@ -8,7 +8,7 @@ const webpackConfig = require("./webpack.config");
 const toWatch = ["./article.md", "./js", "./css"];
 
 const libraryPresets = {
-  jquery: "https://code.jquery.com/jquery-3.3.1.min.js",
+  jquery: "https://code.jquery.com/jquery-3.4.1.min.js",
   highcharts: "https://code.highcharts.com/highcharts.js",
   d3: "https://d3js.org/d3.v3.min.js",
 };
