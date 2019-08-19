@@ -11,6 +11,8 @@ import { GrafTrestDva } from "./grafTrestDva";
 import { GrafBar } from "./grafBar";
 import { GrafPodminka } from "./grafPodminka";
 
+// TODO rozjet na IE
+
 const ParaDetails = ({ info }) => (
   <div className="para-details">
     {Object.keys(info.odst).map(odstavec => (
@@ -164,7 +166,7 @@ class TrestApp extends Component {
         ? <div>Načítám...</div>
         : (
           <div>
-            <select className="select-box" defaultValue={para} onChange={e => this.handleParaSelect(e)}>
+            <select className="select-box" value={para} onChange={e => this.handleParaSelect(e)}>
               {Object.keys(paraData).map(entry => (
                 <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
               ))}
