@@ -1,6 +1,9 @@
 ﻿/* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
+// IE polyfilly
+import "core-js/features/array/includes";
+import "core-js/features/object/entries";
 /** @jsx h */
 import { h, Component, render } from "preact";
 import "./byeie"; // loučíme se s IE
@@ -10,8 +13,6 @@ import { GrafTrest } from "./grafTrest";
 import { GrafTrestDva } from "./grafTrestDva";
 import { GrafBar } from "./grafBar";
 import { GrafPodminka } from "./grafPodminka";
-
-// TODO rozjet na IE
 
 const ParaDetails = ({ info }) => (
   <div className="para-details">
