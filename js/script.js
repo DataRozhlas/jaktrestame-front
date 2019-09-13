@@ -16,17 +16,9 @@ import { GrafPodminka } from "./grafPodminka";
 
 const ParaDetails = ({ info }) => (
   <div className="para-details">
-    {Object.keys(info.odst).map(odstavec => (
-      <div key={odstavec}>
-        <div dangerouslySetInnerHTML={{ __html: info.odst[odstavec].text }} />
-        {Object.keys(info.odst[odstavec].pism).map(pismeno => (
-          <div
-            key={pismeno}
-            dangerouslySetInnerHTML={{ __html: info.odst[odstavec].pism[pismeno].text }}
-          />
-        ))}
-      </div>
-    ))}
+    <div>
+      {info.zn}
+    </div>
     <div className="para-src">
       {"Zdroj: "}
       <a href="https://zakonyprolidi.cz">zakonyprolidi.cz</a>
@@ -38,7 +30,7 @@ class TrestApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      para: "p173",
+      para: "173",
       odst: ["1", "2", "3", "4"],
       year: ["2016", "2017", "2018"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
@@ -88,7 +80,7 @@ class TrestApp extends Component {
     // 'novela'
     // pohlavi
     const requestObject = {
-      paragraf: `${para.substring(1)}`,
+      paragraf: `${para}`,
     };
     requestObject.rok_rozhodnuti = year;
     requestObject.odstavec_nej = odst;
@@ -110,7 +102,7 @@ class TrestApp extends Component {
 
   handleParaSelect(changeEvent) {
     const { odstData } = this.state;
-    const newOdst = odstData[changeEvent.target.value.substring(1)].sort().map(el => String(el));
+    const newOdst = odstData[changeEvent.target.value].sort().map((el) => String(el));
     this.setState({
       para: changeEvent.target.value,
       odst: newOdst,
@@ -141,7 +133,7 @@ class TrestApp extends Component {
 
     const stateChange = {};
     stateChange[id] = state[id].includes(changeEvent.target.value)
-      ? state[id].filter(el => el !== changeEvent.target.value)
+      ? state[id].filter((el) => el !== changeEvent.target.value)
       : [...state[id], changeEvent.target.value];
     if (stateChange[id].length !== 0) {
       stateChange.trest1 = "all";
@@ -161,39 +153,39 @@ class TrestApp extends Component {
       para, data, paraData, odstData, odst, year, drivods, soubeh, pohlavi, trest1, secondaryData,
     } = this.state;
     return (
-      Object.keys(paraData).length === 0
+      paraData.length === 0
         || Object.keys(data).length === 0
         || Object.keys(odstData).length === 0
         ? <div>Načítám...</div>
         : (
           <div>
-            <select className="select-box" value={para} onChange={e => this.handleParaSelect(e)}>
-              {Object.keys(paraData).map(entry => (
-                <option key={entry} value={entry}>{`${paraData[entry].par} ${paraData[entry].nazev}`}</option>
+            <select className="select-box" value={para} onChange={(e) => this.handleParaSelect(e)}>
+              {paraData.map((entry) => (
+                <option key={entry.par} value={entry.par}>{`§ ${entry.par} ${entry.name}`}</option>
               ))}
             </select>
 
             <form id="year-select">
               <b>Rok: </b>
               <label htmlFor="year-2016">
-                <input type="checkbox" name="year" value="2016" id="year-2016" onChange={e => this.handleCheckboxSelect("year", e)} checked={year.includes("2016")} />
+                <input type="checkbox" name="year" value="2016" id="year-2016" onChange={(e) => this.handleCheckboxSelect("year", e)} checked={year.includes("2016")} />
                 {" 2016 "}
               </label>
               <label htmlFor="year-2017">
-                <input type="checkbox" name="year" value="2017" id="year-2017" onChange={e => this.handleCheckboxSelect("year", e)} checked={year.includes("2017")} />
+                <input type="checkbox" name="year" value="2017" id="year-2017" onChange={(e) => this.handleCheckboxSelect("year", e)} checked={year.includes("2017")} />
                 {" 2017 "}
               </label>
               <label htmlFor="year-2018">
-                <input type="checkbox" name="year" value="2018" id="year-2018" onChange={e => this.handleCheckboxSelect("year", e)} checked={year.includes("2018")} />
+                <input type="checkbox" name="year" value="2018" id="year-2018" onChange={(e) => this.handleCheckboxSelect("year", e)} checked={year.includes("2018")} />
                 {" 2018 "}
               </label>
             </form>
 
             <form id="odst-select">
               <b>Odstavec: </b>
-              {odstData[para.substring(1)].sort().map(entry => (
+              {odstData[para].sort().map((entry) => (
                 <span key={entry}>
-                  <input type="checkbox" name="odst" value={entry} onChange={e => this.handleCheckboxSelect("odst", e)} checked={odst.includes(String(entry))} />
+                  <input type="checkbox" name="odst" value={entry} onChange={(e) => this.handleCheckboxSelect("odst", e)} checked={odst.includes(String(entry))} />
                   {` ${entry} `}
                 </span>
               ))}
@@ -201,9 +193,9 @@ class TrestApp extends Component {
 
             <form id="drivods-select">
               <b>Počet předchozích odsouzení: </b>
-              {["0", "1-2", "3-5", "6-10", ">10"].map(entry => (
+              {["0", "1-2", "3-5", "6-10", ">10"].map((entry) => (
                 <span key={entry}>
-                  <input type="checkbox" name="drivods" value={entry} onChange={e => this.handleCheckboxSelect("drivods", e)} checked={drivods.includes(entry)} />
+                  <input type="checkbox" name="drivods" value={entry} onChange={(e) => this.handleCheckboxSelect("drivods", e)} checked={drivods.includes(entry)} />
                   {` ${entry} `}
                 </span>
               ))}
@@ -211,34 +203,34 @@ class TrestApp extends Component {
 
             <form id="soubeh-select">
               <b>Souběh s jiným odsouzením: </b>
-              <input type="checkbox" name="soubeh" value="F" onChange={e => this.handleCheckboxSelect("soubeh", e)} checked={soubeh.includes("F")} />
+              <input type="checkbox" name="soubeh" value="F" onChange={(e) => this.handleCheckboxSelect("soubeh", e)} checked={soubeh.includes("F")} />
               {" Ano "}
-              <input type="checkbox" name="soubeh" value="T" onChange={e => this.handleCheckboxSelect("soubeh", e)} checked={soubeh.includes("T")} />
+              <input type="checkbox" name="soubeh" value="T" onChange={(e) => this.handleCheckboxSelect("soubeh", e)} checked={soubeh.includes("T")} />
               {" Ne "}
             </form>
 
             <form id="pohlavi-select">
               <b>Pohlaví: </b>
-              <input type="checkbox" name="pohlavi" value="muz" onChange={e => this.handleCheckboxSelect("pohlavi", e)} checked={pohlavi.includes("muz")} />
+              <input type="checkbox" name="pohlavi" value="muz" onChange={(e) => this.handleCheckboxSelect("pohlavi", e)} checked={pohlavi.includes("muz")} />
               {" Muži "}
-              <input type="checkbox" name="pohlavi" value="zena" onChange={e => this.handleCheckboxSelect("pohlavi", e)} checked={pohlavi.includes("zena")} />
+              <input type="checkbox" name="pohlavi" value="zena" onChange={(e) => this.handleCheckboxSelect("pohlavi", e)} checked={pohlavi.includes("zena")} />
               {" Ženy "}
             </form>
             <div><b>Znění zákona:</b></div>
-            <ParaDetails para={para} info={paraData[para]} />
+            <ParaDetails para={para} info={paraData.filter((el) => el.par === para)[0]} />
             <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
 
             {data.len >= 5 ? (
               <div>
                 <GrafTrest data={data.trest1} />
 
-                {data.trest1[1].some(el => el >= 5) && (
+                {data.trest1[1].some((el) => el >= 5) && (
                   <form id="trest-select">
                     <b>Pro vedlejší tresty vyberte hlavní trest:</b>
                     <br />
-                    {data.trest1[0].filter((el, index) => data.trest1[1][index] > 5).map(el => (
+                    {data.trest1[0].filter((el, index) => data.trest1[1][index] > 5).map((el) => (
                       <span key={el}>
-                        <input type="radio" name="trest" value={el} onChange={e => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
+                        <input type="radio" name="trest" value={el} onChange={(e) => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
                         {` ${trestyCiselnik[el]} (${data.trest1[1].filter((_, index) => data.trest1[0][index] === el)[0]}) `}
                         <br />
                       </span>
