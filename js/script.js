@@ -16,9 +16,7 @@ import { GrafPodminka } from "./grafPodminka";
 
 const ParaDetails = ({ info }) => (
   <div className="para-details">
-    <div>
-      {info.zn}
-    </div>
+    <div dangerouslySetInnerHTML={{ __html: info.zn }} />
     <div className="para-src">
       {"Zdroj: "}
       <a href="https://zakonyprolidi.cz">zakonyprolidi.cz</a>
@@ -220,7 +218,7 @@ class TrestApp extends Component {
             <ParaDetails para={para} info={paraData.filter((el) => el.par === para)[0]} />
             <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
 
-            {data.len >= 5 ? (
+            {data.len >= 10 ? (
               <div>
                 <GrafTrest data={data.trest1} />
 

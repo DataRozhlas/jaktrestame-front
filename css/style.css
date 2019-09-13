@@ -14,3 +14,11 @@
 #histo {
   display: flex;
 }
+
+.L5, .L6 {
+  margin: 0;
+}
+
+.L6 {
+  text-indent: 10px;
+}
