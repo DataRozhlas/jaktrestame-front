@@ -33,20 +33,21 @@ export const GrafPodminka = ({ data }) => (
       },
       tooltip: {
         formatter() {
+          const value = data.filter((el) => el[0] === this.x && el[1] === this.y)[0][2];
           return `<span style='font-size: 10px'>Podmínka: ${this.x} měsíců</span><br>
             <span style='font-size: 10px'>Zkušební doba: ${this.y} měsíců</span><br>
-            <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${data[1][this.point.index]}</b><br>`;
+            <span style="color:${this.point.color}">\u25CF</span> ${this.series.name}: <b>${value}</b><br>`;
         },
       },
       series: [{
         name: "Odsouzených",
-        data: data[0].map((el, index) => {
+        data: data.map((el) => {
           const max = Math.max(...data[1].slice(0, data[1].length - 1));
           return {
             x: el[0], // + Math.random() - 0.5, //random jitter 0.5 v obou směrech
             y: el[1], // + Math.random() - 0.5,
             color: `rgba(74,108,141,
-             ${((data[1][index] + max / 2) / max) * 0.7})`, // jemnejsi barvy
+             ${((el[2] + max / 2) / max) * 0.7})`, // jemnejsi barvy
           };
         }),
       }],

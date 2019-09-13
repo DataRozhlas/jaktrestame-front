@@ -15,10 +15,14 @@
   display: flex;
 }
 
-.L5, .L6 {
+.L4, .L5, .L6 {
   margin: 0;
 }
 
-.L6 {
+.L5 {
   text-indent: 10px;
+}
+
+.L6 {
+  text-indent: 20px;
 }

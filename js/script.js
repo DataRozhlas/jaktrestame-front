@@ -14,6 +14,9 @@ import { GrafTrestDva } from "./grafTrestDva";
 import { GrafBar } from "./grafBar";
 import { GrafPodminka } from "./grafPodminka";
 
+// helper
+const transformPodminkyData = (data) => data[0].map((el, index) => [el[0], el[1], data[1][index]]);
+
 const ParaDetails = ({ info }) => (
   <div className="para-details">
     <div dangerouslySetInnerHTML={{ __html: info.zn }} />
@@ -222,7 +225,7 @@ class TrestApp extends Component {
               <div>
                 <GrafTrest data={data.trest1} />
 
-                {data.trest1[1].some((el) => el >= 5) && (
+                {data.trest1[1].some((el) => el >= 10) && (
                   <form id="trest-select">
                     <b>Pro vedlejší tresty vyberte hlavní trest:</b>
                     <br />
@@ -239,7 +242,7 @@ class TrestApp extends Component {
                 {Object.keys(secondaryData).length > 1 && (<GrafTrestDva data={secondaryData} />)}
 
                 {data.delka_nepo[1].length > 0 && (<GrafBar data={data.delka_nepo} title="Délka nepodmíněných trestů" unit="měsíců" />)}
-                {data.podminky[1].length > 0 && (<GrafPodminka data={data.podminky} />)}
+                {data.podminky[1].length > 0 && (<GrafPodminka data={transformPodminkyData(data.podminky)} />)}
                 {data.delka_ops[1].length > 0 && (<GrafBar data={data.delka_ops} title="Délka obecně prospěšných prací" unit="hodin" />)}
 
                 <GrafBar data={data.vek} title="Věk" unit="let" />
