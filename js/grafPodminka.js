@@ -42,7 +42,7 @@ export const GrafPodminka = ({ data }) => (
       series: [{
         name: "Odsouzených",
         data: data.map((el) => {
-          const max = Math.max(...data[1].slice(0, data[1].length - 1));
+          const max = Math.max(...data.map((trest) => trest[2]));
           return {
             x: el[0], // + Math.random() - 0.5, //random jitter 0.5 v obou směrech
             y: el[1], // + Math.random() - 0.5,

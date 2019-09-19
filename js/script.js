@@ -25,9 +25,11 @@ const transformPodminkyData = (data) => {
     }
   });
 
-  return data[0]
+  const res = data[0]
     .map((el, index) => [el[0], el[1], data[1][index]])
     .filter((el) => Number.isInteger(el[0]));
+  console.log(res);
+  return res;
 };
 
 const ParaDetails = ({ info }) => (
