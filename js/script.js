@@ -14,10 +14,20 @@ import { GrafTrestDva } from "./grafTrestDva";
 import { GrafBar } from "./grafBar";
 import { GrafPodminka } from "./grafPodminka";
 
-// helper - TODO zaoukrouhlit [0.7, 12] na [1, 12] (např u p205)
+// když [0.7, 12], přidá se k [1, 12]
 const transformPodminkyData = (data) => {
-  console.log(data[0].map((el, index) => [Math.round(el[0]), el[1], data[1][index]]));
-  return data[0].map((el, index) => [Math.round(el[0]), el[1], data[1][index]]);
+  const indexOfArr = (needle, arr) => arr
+    .findIndex((el) => needle[0] === el[0] && needle[1] === el[1]);
+
+  data[0].forEach((el, idx) => {
+    if (!Number.isInteger(el[0])) {
+      data[1][indexOfArr([Math.round(el[0]), el[1]], data[0])] += data[1][idx];
+    }
+  });
+
+  return data[0]
+    .map((el, index) => [el[0], el[1], data[1][index]])
+    .filter((el) => Number.isInteger(el[0]));
 };
 
 const ParaDetails = ({ info }) => (
@@ -34,7 +44,7 @@ class TrestApp extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      para: "173",
+      para: "205",
       odst: ["1", "2", "3", "4"],
       year: ["2016", "2017", "2018"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
