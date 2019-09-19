@@ -14,8 +14,11 @@ import { GrafTrestDva } from "./grafTrestDva";
 import { GrafBar } from "./grafBar";
 import { GrafPodminka } from "./grafPodminka";
 
-// helper
-const transformPodminkyData = (data) => data[0].map((el, index) => [el[0], el[1], data[1][index]]);
+// helper - TODO zaoukrouhlit [0.7, 12] na [1, 12] (např u p205)
+const transformPodminkyData = (data) => {
+  console.log(data[0].map((el, index) => [Math.round(el[0]), el[1], data[1][index]]));
+  return data[0].map((el, index) => [Math.round(el[0]), el[1], data[1][index]]);
+};
 
 const ParaDetails = ({ info }) => (
   <div className="para-details">
@@ -249,10 +252,10 @@ class TrestApp extends Component {
                 {pohlavi.length === 2 && <GrafGender data={data.pohlavi} />}
               </div>
             ) : (
-              <div>
-                <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
-              </div>
-            )}
+                <div>
+                  <p><i>Odsouzených je příliš málo na zobrazení podrobnějších dat.</i></p>
+                </div>
+              )}
           </div>
         )
     );
