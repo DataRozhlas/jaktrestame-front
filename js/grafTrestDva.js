@@ -3,7 +3,7 @@
 import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { trestyCiselnik } from "./trestyCiselnik";
+import { trestyCiselnik, trestyBarvy } from "./trestyCiselnik";
 
 export const GrafTrestDva = ({ data }) => {
   function toObj(arr) {
@@ -23,9 +23,8 @@ export const GrafTrestDva = ({ data }) => {
   trestyObj[13] = data.trest2[1][data.trest2[0].indexOf(13)];
 
   const processedData = Object.entries(trestyObj)
-    .map((entry) => ({ name: trestyCiselnik[entry[0]], data: [entry[1]] }))
-    .sort((a, b) => b.data[0] - a.data[0]);
-
+    .sort((a, b) => b[1] - a[1])
+    .map((entry, idx) => ({ name: trestyCiselnik[entry[0]], data: [entry[1]], color: trestyBarvy[entry[0]], id: idx }))
   const percentageData = processedData.map((el) => el.data[0] * 100 / data.trest1[1][0]);
 
   return (
@@ -53,7 +52,7 @@ export const GrafTrestDva = ({ data }) => {
         tooltip: {
           pointFormatter() {
             return `<span style='color:${this.color}'>${this.series.name}</span>:
-              <b>${String(Math.round(100 * percentageData[this.colorIndex]) / 100).replace(".", ",")} %</b> (${this.y})<br/>`;
+              <b>${String(Math.round(100 * percentageData[this.series.userOptions.id]) / 100).replace(".", ",")} %</b> (${this.y})<br/>`;
           },
           shared: true,
         },

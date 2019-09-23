@@ -7,7 +7,7 @@ import "core-js/features/object/entries";
 /** @jsx h */
 import { h, Component, render } from "preact";
 import "./byeie"; // loučíme se s IE
-import { trestyCiselnik } from "./trestyCiselnik";
+import { trestyCiselnik, trestyBarvy } from "./trestyCiselnik";
 import { GrafGender } from "./grafGender";
 import { GrafTrest } from "./grafTrest";
 import { GrafTrestDva } from "./grafTrestDva";
@@ -267,11 +267,15 @@ class TrestApp extends Component {
 
                 {Object.keys(secondaryData).length > 1 && (<GrafTrestDva data={secondaryData} />)}
 
-                {data.delka_nepo[1].length > 0 && (<GrafBar data={data.delka_nepo} title="Délka nepodmíněných trestů" unit="měsíců" />)}
+                {data.delka_nepo[1].length > 0 && (
+                  <GrafBar data={data.delka_nepo} title="Délka nepodmíněných trestů" unit="měsíců" color={trestyBarvy[1]} />
+                )}
                 {data.podminky[1].length > 0 && (<GrafPodminka data={transformPodminkyData(data.podminky)} />)}
-                {data.delka_ops[1].length > 0 && (<GrafBar data={data.delka_ops} title="Délka obecně prospěšných prací" unit="hodin" />)}
+                {data.delka_ops[1].length > 0 && (
+                  <GrafBar data={data.delka_ops} title="Délka obecně prospěšných prací" unit="hodin" color={trestyBarvy[4]} />
+                )}
 
-                <GrafBar data={data.vek} title="Věk" unit="let" />
+                <GrafBar data={data.vek} title="Věk" unit="let" color="#7cb5ec" />
                 {pohlavi.length === 2 && <GrafGender data={data.pohlavi} />}
               </div>
             ) : (

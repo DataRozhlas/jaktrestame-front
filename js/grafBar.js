@@ -4,7 +4,7 @@ import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-export const GrafBar = ({ data, title, unit }) => (
+export const GrafBar = ({ data, title, unit, color }) => (
   <HighchartsReact
     highcharts={Highcharts}
     options={{
@@ -14,6 +14,7 @@ export const GrafBar = ({ data, title, unit }) => (
       title: {
         text: title,
       },
+      colors: [color],
       credits: {
         enabled: false,
       },

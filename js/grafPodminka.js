@@ -3,6 +3,7 @@
 import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
+import { trestyBarvy } from "./trestyCiselnik";
 
 export const GrafPodminka = ({ data }) => (
   <HighchartsReact
@@ -46,8 +47,11 @@ export const GrafPodminka = ({ data }) => (
           return {
             x: el[0], // + Math.random() - 0.5, //random jitter 0.5 v obou směrech
             y: el[1], // + Math.random() - 0.5,
-            color: `rgba(74,108,141,
-             ${((el[2] + max / 2) / max) * 0.7})`, // jemnejsi barvy
+            color: `rgba(
+              ${parseInt(trestyBarvy[2].substring(1, 3), 16)},
+              ${parseInt(trestyBarvy[2].substring(3, 5), 16)},
+              ${parseInt(trestyBarvy[2].substring(5, 7), 16)},
+              ${((el[2] + max / 2) / max) * 0.7})`, // jemnejsi barvy
           };
         }),
       }],

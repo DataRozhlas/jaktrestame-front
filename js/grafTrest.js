@@ -2,7 +2,7 @@
 import { h } from "preact";
 import Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-import { trestyCiselnik } from "./trestyCiselnik";
+import { trestyCiselnik, trestyBarvy } from "./trestyCiselnik";
 
 export const GrafTrest = ({ data }) => (
   <HighchartsReact
@@ -37,7 +37,7 @@ export const GrafTrest = ({ data }) => (
         shared: true,
       },
       series: data[0]
-        .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]] }))
+        .map((entry, index) => ({ name: trestyCiselnik[entry], data: [data[1][index]], color: trestyBarvy[entry] }))
         .sort((a, b) => b.data[0] - a.data[0]),
     }}
   />
