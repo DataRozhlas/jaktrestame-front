@@ -206,15 +206,17 @@ class TrestApp extends Component {
               </label>
             </form>
 
-            <form id="odst-select">
-              <b>Odstavec: </b>
-              {odstData[para].sort().map((entry) => (
-                <span key={entry}>
-                  <input type="checkbox" name="odst" value={entry} onChange={(e) => this.handleCheckboxSelect("odst", e)} checked={odst.includes(String(entry))} />
-                  {` ${entry} `}
-                </span>
-              ))}
-            </form>
+            {odstData[para][0] !== 0 && (
+              <form id="odst-select">
+                <b>Odstavec: </b>
+                {odstData[para].sort().map((entry) => (
+                  <span key={entry}>
+                    <input type="checkbox" name="odst" value={entry} onChange={(e) => this.handleCheckboxSelect("odst", e)} checked={odst.includes(String(entry))} />
+                    {` ${entry} `}
+                  </span>
+                ))}
+              </form>
+            )}
 
             <form id="drivods-select">
               <b>Počet předchozích odsouzení: </b>
