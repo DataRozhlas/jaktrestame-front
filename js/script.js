@@ -32,6 +32,15 @@ const transformPodminkyData = (data) => {
   return res;
 };
 
+// filtrovani nulovych odstavcu v pripadech, kdy existuji nenulove
+const odstFilter = (odstData) => {
+  const filteredData = {};
+  Object.entries(odstData).forEach((el) => {
+    filteredData[el[0]] = el[1].filter((subel) => el[1].length === 1 || subel !== 0);
+  });
+  return filteredData;
+};
+
 const ParaDetails = ({ info }) => (
   <div className="para-details">
     <div dangerouslySetInnerHTML={{ __html: info.zn }} />
@@ -47,7 +56,7 @@ class TrestApp extends Component {
     super(props);
     this.state = {
       para: "205",
-      odst: ["1", "2", "3", "4"],
+      odst: ["1", "2", "3", "4", "5"],
       year: ["2016", "2017", "2018"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
       soubeh: ["T"],
@@ -77,7 +86,7 @@ class TrestApp extends Component {
     const odstUrl = "https://data.irozhlas.cz/jaktrestame-front/data/odstavce.json";
     xhr2.open("get", odstUrl, true);
     xhr2.onload = () => {
-      this.setState({ odstData: JSON.parse(xhr2.responseText) }, () => this.loadData());
+      this.setState({ odstData: odstFilter(JSON.parse(xhr2.responseText)) }, () => this.loadData());
     };
     xhr2.send();
   }
