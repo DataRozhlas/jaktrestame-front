@@ -6,6 +6,7 @@ import "core-js/features/array/includes";
 import "core-js/features/object/entries";
 /** @jsx h */
 import { h, Component, render } from "preact";
+import Select from "react-select";
 import "./byeie"; // loučíme se s IE
 import { trestyCiselnik, trestyBarvy } from "./trestyCiselnik";
 import { GrafGender } from "./grafGender";
@@ -56,13 +57,14 @@ class TrestApp extends Component {
     super(props);
     this.state = {
       para: "205",
+      paraSelect: { value: "205", label: "§ 205 Krádež" },
       odst: ["1", "2", "3", "4", "5"],
       year: ["2016", "2017", "2018"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
       soubeh: ["T"],
       pohlavi: ["muz", "zena"],
       trest1: "all",
-      paraData: {},
+      paraData: [],
       odstData: {},
       data: {},
       secondaryData: {},
@@ -126,10 +128,12 @@ class TrestApp extends Component {
   }
 
   handleParaSelect(changeEvent) {
+    console.log(changeEvent)
     const { odstData } = this.state;
-    const newOdst = odstData[changeEvent.target.value].sort().map((el) => String(el));
+    const newOdst = odstData[changeEvent.value].sort().map((el) => String(el));
     this.setState({
-      para: changeEvent.target.value,
+      para: changeEvent.value,
+      paraSelect: changeEvent,
       odst: newOdst,
       year: ["2016", "2017", "2018"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
@@ -175,8 +179,13 @@ class TrestApp extends Component {
 
   render() {
     const {
-      para, data, paraData, odstData, odst, year, drivods, soubeh, pohlavi, trest1, secondaryData,
+      para, paraSelect, data, paraData, odstData, odst, year, drivods, soubeh, pohlavi, trest1, secondaryData,
     } = this.state;
+    const options = paraData.length === 0 ? [] : paraData.map((entry) => ({
+      value: entry.par,
+      label: `§ ${entry.par} ${entry.name}`,
+    }));
+    console.log(paraData, options)
     return (
       paraData.length === 0
         || Object.keys(data).length === 0
@@ -184,12 +193,7 @@ class TrestApp extends Component {
         ? <div>Načítám...</div>
         : (
           <div>
-            <select className="select-box" value={para} onChange={(e) => this.handleParaSelect(e)}>
-              {paraData.map((entry) => (
-                <option key={entry.par} value={entry.par}>{`§ ${entry.par} ${entry.name}`}</option>
-              ))}
-            </select>
-
+            <Select value={paraSelect} options={options} onChange={(e) => this.handleParaSelect(e)} />
             <form id="year-select">
               <b>Rok: </b>
               <label htmlFor="year-2016">

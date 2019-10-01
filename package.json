@@ -29,6 +29,7 @@
     "js-yaml": "^3.13.1",
     "marked": "^0.7.0",
     "preact": "^10.0.0-rc.3",
+    "react-select": "^2.4.4",
     "webpack": "^4.40.1"
   }
 }
