@@ -1,0 +1,95 @@
+soud_jmeno;soud_nadrizeny;soud_ID
+KS České Budějovice;VS Praha;KSJICCB
+KS Brno;VS Olomouc;KSJIMBM
+KS Ústí n.L.;VS Praha;KSSCEUL
+KS Ostrava;VS Olomouc;KSSEMOS
+KS Praha;VS Praha;KSSTCAB
+KS Hradec Králové;VS Praha;KSVYCHK
+KS Plzeň;VS Praha;KSZPCPM
+MS Brno-město;KS Brno;OSJIMBM
+MS Praha;VS Praha;MSPHAAB
+OS České Budějovice;KS Č.Budějovice;OSJICCB
+OS Český Krumlov;KS Č.Budějovice;OSJICCK
+OS Jindřichův Hradec;KS Č.Budějovice;OSJICJH
+OS Pelhřimov;KS Č.Budějovice;OSJICPE
+OS Písek;KS Č.Budějovice;OSJICPI
+OS Prachatice;KS Č.Budějovice;OSJICPT
+OS Strakonice;KS Č.Budějovice;OSJICST
+OS Tábor;KS Č.Budějovice;OSJICTA
+OS Blansko;KS Brno;OSJIMBK
+OS Brno-venkov;KS Brno;OSJIMBO
+OS Břeclav;KS Brno;OSJIMBV
+OS Hodonín;KS Brno;OSJIMHO
+OS Jihlava;KS Brno;OSJIMJI
+OS Kroměříž;KS Brno;OSJIMKM
+OS Prostějov;KS Brno;OSJIMPV
+OS Třebíč;KS Brno;OSJIMTR
+OS U.Hradiště;KS Brno;OSJIMUH
+OS Vyškov;KS Brno;OSJIMVY
+OS Zlín;KS Brno;OSJIMZL
+OS Znojmo;KS Brno;OSJIMZN
+OS Ždár n.S.;KS Brno;OSJIMZR
+OS Praha 1;MS Praha;OSPHA01
+OS Praha 2;MS Praha;OSPHA02
+OS Praha 3;MS Praha;OSPHA03
+OS Praha 4;MS Praha;OSPHA04
+OS Praha 5;MS Praha;OSPHA05
+OS Praha 6;MS Praha;OSPHA06
+OS Praha 7;MS Praha;OSPHA07
+OS Praha 8;MS Praha;OSPHA08
+OS Praha 9;MS Praha;OSPHA09
+OS Praha 10;MS Praha;OSPHA10
+OS Česká Lípa;KS Ústí n.L.;OSSCECL
+OS Chomutov;KS Ústí n.L.;OSSCECV
+OS Děčín;KS Ústí n.L.;OSSCEDC
+OS Jablonec n.N.;KS Ústí n.L.;OSSCEJN
+OS Liberec;KS Ústí n.L.;OSSCELB
+OS Louny;KS Ústí n.L.;OSSCELN
+OS Litoměřice;KS Ústí n.L.;OSSCELT
+OS Most;KS Ústí n.L.;OSSCEMO
+OS Teplice;KS Ústí n.L.;OSSCETP
+OS Ústí n.L.;KS Ústí n.L.;OSSCEUL
+OS Bruntál;KS Ostrava;OSSEMBR
+OS Frýdek-Místek;KS Ostrava;OSSEMFM
+OS Jeseník;KS Ostrava;OSSEMJE
+OS Karviná;KS Ostrava;OSSEMKA
+OS Nový Jičín;KS Ostrava;OSSEMNJ
+OS Olomouc;KS Ostrava;OSSEMOC
+OS Opava;KS Ostrava;OSSEMOP
+OS Ostrava;KS Ostrava;OSSEMOS
+OS Přerov;KS Ostrava;OSSEMPR
+OS Šumperk;KS Ostrava;OSSEMSU
+OS Vsetín;KS Ostrava;OSSEMVS
+OS Beroun;KS Praha;OSSTCBE
+OS Benešov;KS Praha;OSSTCBN
+OS Kutná Hora;KS Praha;OSSTCKH
+OS Kladno;KS Praha;OSSTCKL
+OS Kolín;KS Praha;OSSTCKO
+OS Mladá Boleslav;KS Praha;OSSTCMB
+OS Mělník;KS Praha;OSSTCME
+OS Nymburk;KS Praha;OSSTCNB
+OS Příbram;KS Praha;OSSTCPB
+OS Praha-východ;KS Praha;OSSTCPY
+OS Praha-západ;KS Praha;OSSTCPZ
+OS Rakovník;KS Praha;OSSTCRA
+OS Chrudim;KS H.Králové;OSVYCCR
+OS Havlíčkův Brod;KS H.Králové;OSVYCHB
+OS Hradec Králové;KS H.Králové;OSVYCHK
+OS Jičín;KS H.Králové;OSVYCJC
+OS Náchod;KS H.Králové;OSVYCNA
+OS Pardubice;KS H.Králové;OSVYCPA
+OS Rychnov n.K.;KS H.Králové;OSVYCRK
+OS Semily;KS H.Králové;OSVYCSM
+OS Svitavy;KS H.Králové;OSVYCSY
+OS Trutnov;KS H.Králové;OSVYCTU
+OS Ústí n.O.;KS H.Králové;OSVYCUO
+OS Cheb;KS Plzeň;OSZPCCH
+OS Domažlice;KS Plzeň;OSZPCDO
+OS Klatovy;KS Plzeň;OSZPCKT
+OS Karlovy Vary;KS Plzeň;OSZPCKV
+OS Plzeň-jih;KS Plzeň;OSZPCPJ
+OS Plzeň-město;KS Plzeň;OSZPCPM
+OS Plzeň-sever;KS Plzeň;OSZPCPS
+OS Rokycany;KS Plzeň;OSZPCRO
+OS Sokolov;KS Plzeň;OSZPCSO
+OS Tachov;KS Plzeň;OSZPCTC
