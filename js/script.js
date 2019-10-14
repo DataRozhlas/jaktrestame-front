@@ -1,9 +1,6 @@
 ﻿/* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
-// IE polyfilly
-import "core-js/features/array/includes";
-import "core-js/features/object/entries";
 /** @jsx h */
 import { h, Component, render } from "preact";
 import Select from "react-select";
@@ -28,11 +25,9 @@ const transformPodminkyData = (data) => {
     }
   });
 
-  const res = data[0]
+  return data[0]
     .map((el, index) => [el[0], el[1], data[1][index]])
     .filter((el) => Number.isInteger(el[0]));
-  console.log(res);
-  return res;
 };
 
 // /////////////// KOMPONENTY
@@ -107,14 +102,13 @@ class TrestApp extends Component {
     requestObject.jeden_tc = soubeh;
     requestObject.pohlavi = pohlavi;
     if (trest1 !== "all") requestObject.trest1 = `${trest1}`;
-    console.log(requestObject, btoa(JSON.stringify(requestObject)));
+    //console.log(requestObject, btoa(JSON.stringify(requestObject)));
     const xhr = new XMLHttpRequest();
     const url = `https://d2az28rw8ehvqk.cloudfront.net/?h=${btoa(JSON.stringify(requestObject))}`;
     xhr.open("get", url, true);
     xhr.onload = () => {
       if (!secondary) this.setState({ data: JSON.parse(xhr.responseText) });
       else this.setState({ secondaryData: JSON.parse(xhr.responseText) });
-      console.log(this.state);
     };
     xhr.send();
   }
@@ -173,7 +167,6 @@ class TrestApp extends Component {
       value: entry.par,
       label: `§ ${entry.par} ${entry.name}`,
     }));
-    console.log(options)
     return (
       Object.keys(data).length === 0
         ? <div>Načítám...</div>
@@ -268,7 +261,9 @@ class TrestApp extends Component {
                 {data.delka_nepo[1].length > 0 && (
                   <GrafBar data={data.delka_nepo} title="Délka nepodmíněných trestů" unit="měsíců" color={trestyBarvy[1]} />
                 )}
-                {data.podminky[1].length > 0 && (<GrafPodminka data={transformPodminkyData(data.podminky)} />)}
+                {data.podminky[1].length > 0 && (
+                  <GrafPodminka data={transformPodminkyData(data.podminky)} />
+                )}
                 {data.delka_ops[1].length > 0 && (
                   <GrafBar data={data.delka_ops} title="Délka obecně prospěšných prací" unit="hodin" color={trestyBarvy[4]} />
                 )}
