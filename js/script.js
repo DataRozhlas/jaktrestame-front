@@ -76,7 +76,6 @@ class TrestApp extends Component {
       soubeh: ["T"],
       pohlavi: ["muz", "zena"],
       trest1: "all",
-      paraData: paragrafy,
       data: {},
       secondaryData: {},
     };
@@ -168,16 +167,15 @@ class TrestApp extends Component {
 
   render() {
     const {
-      para, data, paraData, odst, year, drivods, soubeh, pohlavi, trest1, secondaryData,
+      para, data, odst, year, drivods, soubeh, pohlavi, trest1, secondaryData,
     } = this.state;
-    const options = paraData.length === 0 ? [] : paraData.map((entry) => ({
+    const options = paragrafy.map((entry) => ({
       value: entry.par,
       label: `§ ${entry.par} ${entry.name}`,
     }));
-    console.log(paraData, options)
+    console.log(options)
     return (
-      paraData.length === 0
-        || Object.keys(data).length === 0
+      Object.keys(data).length === 0
         ? <div>Načítám...</div>
         : (
           <div>
@@ -244,13 +242,24 @@ class TrestApp extends Component {
                   <form id="trest-select">
                     <b>Pro vedlejší tresty vyberte hlavní trest:</b>
                     <br />
-                    {data.trest1[0].filter((el, index) => data.trest1[1][index] > 5).map((el) => (
-                      <span key={el}>
-                        <input type="radio" name="trest" value={el} onChange={(e) => this.handleSecondarySelect(e)} checked={trest1 === String(el)} />
-                        {` ${trestyCiselnik[el]} (${data.trest1[1].filter((_, index) => data.trest1[0][index] === el)[0]}) `}
-                        <br />
-                      </span>
-                    ))}
+                    {data.trest1[0]
+                      .map((entry, index) => ({ name: trestyCiselnik[entry], value: entry, data: [data.trest1[1][index]] }))
+                      .sort((a, b) => (b.value === 14 && a.value !== 1 ? a.value + b.value : a.value - b.value)) // předřazení podmínky s dohledem
+                      .filter((el) => el.data > 5)
+                      .map((el) => (
+                        <label htmlFor={`trest-${el.value}`}>
+                          <input
+                            type="radio"
+                            name="trest"
+                            id={`trest-${el.value}`}
+                            value={el.value}
+                            onChange={(e) => this.handleSecondarySelect(e)}
+                            checked={trest1 === String(el.value)}
+                          />
+                          {` ${el.name} (${el.data}) `}
+                          <br />
+                        </label>
+                      ))}
                   </form>
                 )}
 
