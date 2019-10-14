@@ -1,5 +1,5 @@
 title: "Krádeže a vraždy, vězení i podmínky: podívejte se, jaké tresty a komu ukládá tuzemská justice"
-perex: "Třetina zlodějů putuje do vězení, u pachatelů znásilnění si polovina odnese podmínku. Unikátní apliakce vám ukáže, jací pachatelé v Česku kradou, podvádí a defraudují dotace, a také jaké tresty si za to odnáší od soudů."
+perex: "Třetina zlodějů putuje do vězení, u pachatelů znásilnění si polovina odnese podmínku. Unikátní aplikace vám ukáže, jací pachatelé v Česku kradou, podvádí a defraudují dotace, a také jaké tresty si za to odnáší od soudů."
 published: "15. října 2019"
 coverimg: https://www.irozhlas.cz/sites/default/files/styles/zpravy_snowfall/public/images/02340177.jpeg?itok=f3ZkeBph
 coverimg_note: "Foto: Vězeňská služba ČR"
@@ -13,11 +13,11 @@ V následující aplikaci si můžete prohlédnout, jaké tresty obvykle padají
 
 <div id="trestapp"></div>
 
-Informace o udělených trestech se v Česku zapisují do takzvaných statistických listů trestních. Jde o soudem vypracovaný podrobný popis okolností každého případu, od osoby pachatele, přes oběť až po udělený trest. Takto podrobné informace ale nejsou, s ohledem na [ochranu soukromí pachatelů](https://www.zakonyprolidi.cz/cs/2019-110/zneni-20190424#p66-6) i obětí, veřejné. Data ale zpracovali výzkumníci z Univerzity Karlovy, aplikace tak ukazuje nejpodrobnější, čísla, která jsou v Česku dostupná.
+Informace o uložených trestech se v Česku zapisují do takzvaných statistických listů trestních. Jde o soudem vypracovaný podrobný popis okolností každého případu, od osoby pachatele, přes oběť až po udělený trest. Takto podrobné informace ale nejsou, s ohledem na [ochranu soukromí pachatelů](https://www.zakonyprolidi.cz/cs/2019-110/zneni-20190424#p66-6) i obětí, veřejné. Data ale zpracovali výzkumníci z Univerzity Karlovy, aplikace tak ukazuje nejpodrobnější čísla, která jsou v Česku dostupná.
 
-"Ukládání trestů je komplikované. Trestní zákoník soudci nabízí jen větší množství více či méně neurčitých principů na rozdíl od jednoznačného pravidla," říká vedoucí výzkumu Jakub Drápal katedry trestního práva na právnické fakultě Univerzity Karlovy. "Soudce pak nevybírá jen ze dvou možností, ale tresty ukládá z široké škály, přičemž u každého musí stanovit jeho výměru," vysvětluje.
+"Ukládání trestů je komplikované. Trestní zákoník soudci nabízí jen větší množství více či méně neurčitých principů na rozdíl od jednoznačného pravidla," říká vedoucí výzkumu Jakub Drápal z Právnické fakulty Univerzity Karlovy. "Soudce pak nevybírá jen ze dvou možností, ale tresty ukládá z široké škály, přičemž u každého musí stanovit jeho výměru," vysvětluje.
 
-"Není to kalkulačka trestů, nelze její pomocí aplikace vypočítat, jaký trest by měl být uložen," dodává mluvčí Nejvyššího státního zastupitelství Jiří Pavlík. Jelikož jde o souhrnné statistiky, není možné podle nich hodnotit, zda soudce v konkrétním případě postupoval správně. Může ale pomoci například obžalovanému či jeho okolí se zorientovat v tom, co od soudu mohou očekávat. To potvrzuje i mluvčí Unie státních zástupců Ondřej Šťastný a dodává, že "každý případ je jedinečný a soud musí zohlednit všechny jeho okolnosti".
+"Není to kalkulačka trestů, nelze její pomocí aplikace vypočítat, jaký trest by měl být uložen," dodává náměstek Nejvyššího státního zastupitelství Jiří Pavlík. Jelikož jde o souhrnné statistiky, není možné podle nich hodnotit, zda soudce v konkrétním případě postupoval správně. Může ale pomoci například obžalovanému či jeho okolí se zorientovat v tom, co od soudu mohou očekávat. To potvrzuje i mluvčí Unie státních zástupců Ondřej Šťastný a dodává, že "každý případ je jedinečný a soud musí zohlednit všechny jeho okolnosti".
 
 ## Za znásilnění podmínka
 
@@ -41,6 +41,6 @@ Dilema pachatele s nadsázkou přirovnává k situaci, kdy i přes dlouhodobou s
 
 Podle Drápala je tak zásadní, abychom zvýšili objasněnost trestných činů a následný trest pak uložili bez zbytečných průtahů. "Kdyby čokoláda obsahovala dvojnásobek kalorií, odradilo by vás to před její konzumací těsně před spaním? Z vlastní zkušenosti vím, že nikoli, klidně sním dvě," dodává.
 
-I Drápal pak zdůrazňuje, že zveřejněná statistika by neměla být používaná jako jednoduchý bič na soudce. "[Výzkumy](https://www.researchgate.net/profile/Mike_Hough/publication/249716400_Sentencing_Trends_in_Britain_Public_Knowledge_and_Public_Opinion/links/541837770cf25ebee9880d8e.pdf) ukazují, že lidé [obecně preferují](http://onlinelibrary.wiley.com/doi/10.1002/bsl.2370070106/full) zpřísnění trestů. Pokud ale [vidí konkrétní případy](http://psycnet.apa.org/record/2001-05316-005), uložili by tresty podobně přísné jako soudy, či dokonce mírnější," dodává. I tak jjsou ale zveřejněná čísla podstatná. 
+I Drápal pak zdůrazňuje, že zveřejněná statistika by neměla být používaná jako jednoduchý bič na soudce. "[Výzkumy](https://www.researchgate.net/profile/Mike_Hough/publication/249716400_Sentencing_Trends_in_Britain_Public_Knowledge_and_Public_Opinion/links/541837770cf25ebee9880d8e.pdf) ukazují, že lidé [obecně preferují](http://onlinelibrary.wiley.com/doi/10.1002/bsl.2370070106/full) zpřísnění trestů. Pokud ale [vidí konkrétní případy](http://psycnet.apa.org/record/2001-05316-005), uložili by tresty podobně přísné jako soudy, či dokonce mírnější," dodává. I tak jsou ale zveřejněná čísla podstatná. 
 
 "Spravedlnosti není dosaženo, pokud existují významné rozdíly mezi soudy a soudci," říká a opět [cituje](https://journals.sagepub.com/doi/abs/10.1177/1477370818773612) odborné [práce](http://www.sagit.cz/info/trestni-pravo-c-4-2018). "Zveřejňování statistik je tak jeden z kroků vedoucích ke snížení neodůvodněných rozdílů při ukládání trestů mezi soudci a soudy," uzavírá.
