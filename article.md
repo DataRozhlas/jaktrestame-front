@@ -15,7 +15,7 @@ _(Text pokračuje pod aplikací.)_
 
 <div id="trestapp"></div>
 
-Informace o uložených trestech se v Česku zapisují do takzvaných statistických listů trestních. Jde o soudem vypracovaný podrobný popis okolností každého případu, od osoby pachatele přes oběť až po udělený trest. Takto podrobné informace ale nejsou, s ohledem na [ochranu soukromí pachatelů](https://www.zakonyprolidi.cz/cs/2019-110/zneni-20190424#p66-6) i obětí, veřejné. Data ale zpracovali výzkumníci z Univerzity Karlovy, aplikace tak ukazuje nejpodrobnější čísla, která jsou v Česku dostupná.
+Informace o uložených trestech se v Česku zapisují do takzvaných statistických listů trestních. Jde o soudem vypracovaný podrobný popis okolností každého případu, od osoby pachatele přes oběť až po udělený trest. Takto podrobné informace ale nejsou, s ohledem na [ochranu soukromí pachatelů](https://www.zakonyprolidi.cz/cs/2019-110/zneni-20190424#p66-6) i obětí, veřejné. Data z let 2016, 2017 a 2018 ale zpracovali výzkumníci z Univerzity Karlovy, aplikace [Jaktrestame.cz](https://jaktrestame.cz/) tak ukazuje nejpodrobnější čísla, která jsou v Česku dostupná.
 
 "Ukládání trestů je komplikované. Trestní zákoník soudci nabízí jen větší množství více či méně neurčitých principů na rozdíl od jednoznačného pravidla," říká vedoucí výzkumu Jakub Drápal z Právnické fakulty Univerzity Karlovy. "Soudce pak nevybírá jen ze dvou možností, ale tresty ukládá z široké škály, přičemž u každého musí stanovit jeho výměru," vysvětluje.
 
@@ -23,7 +23,7 @@ Informace o uložených trestech se v Česku zapisují do takzvaných statistick
 
 ## Za znásilnění podmínka
 
-Že je souhrnná čísla nutné číst v kontextu, ukazuje například [případ z roku 2017](https://www.novinky.cz/domaci/clanek/za-znasilneni-podminka-u-ceskych-soudu-bezne-40052564), kdy nezisková organizace [proFem analyzovala 55 rozsudků](https://www.profem.cz/shared/clanky/550/A5-JenAnoJeAno_WEB.pdf), ze kterých vyplynulo, že 40 % pachatelů znásilnění odešlo od soudu s podmínkou. S aktuálního přehledu vyplývá, že je to dokonce polovina.
+Že je souhrnná čísla nutné číst v kontextu, ukazuje například [případ z roku 2017](https://www.novinky.cz/domaci/clanek/za-znasilneni-podminka-u-ceskych-soudu-bezne-40052564), kdy nezisková organizace [proFem analyzovala 55 rozsudků](https://www.profem.cz/shared/clanky/550/A5-JenAnoJeAno_WEB.pdf), ze kterých vyplynulo, že 40 % pachatelů znásilnění odešlo od soudu s podmínkou. Z aktuálního přehledu vyplývá, že je to dokonce polovina.
 
 "Skutečnost, že za trestný čin znásilnění je většinou ukládána ,podmínka‘, na první dojem může vypadat jako šokující benevolence soudů," uvedl pro Radiožurnál místopředseda Okresního soudu v Táboře Ondřej Kubů. Podle něj je ale nutné se dívat na další detaily případů. "Asi polovina pachatelů se v daném případě trestného činu dopouští poprvé. To je v praxi naší justice [důležitý aspekt pro ukládání trestu odnětí svobody](https://www.zakonyprolidi.cz/cs/2009-40/zneni-20190201#p81-1) s podmíněně odloženým výkonem," vysvětluje.
 
@@ -31,7 +31,7 @@ Informace o uložených trestech se v Česku zapisují do takzvaných statistick
   <div class="b-inline__wrap">
             <div class="b-inline__img">
           <div class="img img--16x9 img--w238 is-loaded">
-              <span class="img__holder is-loading is-loaded is-visible" data-srcset="[&quot;https://www.irozhlas.cz/sites/default/files/styles/zpravy_rubrikovy_nahled/public/images/03777656.jpeg?itok=hj0vCB4V 238x134&quot;]">
+              <span class="img__holder is-loading is-loaded is-visible" data-srcset='["https://www.irozhlas.cz/sites/default/files/styles/zpravy_rubrikovy_nahled/public/images/03777656.jpeg?itok=hj0vCB4V 238x134"]'>
 
   <noscript>    <img src="https://www.irozhlas.cz/sites/default/files/styles/zpravy_rubrikovy_nahled/public/images/03777656.jpeg?itok=hj0vCB4V" alt="" />  </noscript>
 <img src="https://www.irozhlas.cz/sites/default/files/styles/zpravy_rubrikovy_nahled/public/images/03777656.jpeg?itok=hj0vCB4V"></span>
@@ -52,7 +52,7 @@ Informace o uložených trestech se v Česku zapisují do takzvaných statistick
   </div>
 </a>
 
-Podle něj je také podstatné, že skutková podstata znásilnění je široká a, alespoň _de iure_, zahrnuje vlastně téměř jakýkoliv dotyk, který směřuje k ukojení sexuálního nutkání, včetně např. i osahávání druhého. "Zahrnuje tím řadu jednání, které by laik znásilněním nenazval nebo se nám jednoduše jako první představa spojená s tímto slovem nevybaví," dodává s tím, že i proto je trestní sazba za tento trestný čin stanovená na širokých 2–10 let. "Přínos soudcovského rozhodování je především v zohlednění všech důležitých okolností, tedy i těch, které statistika není schopná zachytit," uzavírá Kubů.
+Podle něj je také podstatné, že skutková podstata znásilnění je široká a, alespoň _de iure_, zahrnuje vlastně téměř jakýkoliv dotyk, který směřuje k ukojení sexuálního nutkání, včetně např. i osahávání druhého. "Zahrnuje tím řadu jednání, která by laik znásilněním nenazval nebo se nám jednoduše jako první představa spojená s tímto slovem nevybaví," dodává s tím, že i proto je trestní sazba za tento trestný čin stanovená na širokých 2–10 let. "Přínos soudcovského rozhodování je především v zohlednění všech důležitých okolností, tedy i těch, které statistika není schopná zachytit," uzavírá Kubů.
 
 S kolegou souhlasí i Karel Ulík z Okresního soudu pro Prahu-východ. "Nutno připomenout klišé, že ne každé dva případy jsou zcela totožné," zdůrazňuje a hned vysvětluje: "Pokud v aplikaci vidím, že za první krádež je ve většině případů ukládána podmínka, neznamená to pro mě samo o sobě v zásadě nic, protože v mém konkrétním případě můžou být vhodnějším trestem třeba obecně prospěšné práce nebo vyhoštění."
 
