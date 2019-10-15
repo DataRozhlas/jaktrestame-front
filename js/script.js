@@ -3,6 +3,7 @@
 /* eslint-disable react/no-danger */
 /** @jsx h */
 import { h, Component, render } from "preact";
+import { useState, Fragment } from "preact/compat";
 import Select from "react-select";
 import "./byeie"; // loučíme se s IE
 import { trestyCiselnik, trestyBarvy } from "./trestyCiselnik";
@@ -31,15 +32,23 @@ const transformPodminkyData = (data) => {
 };
 
 // /////////////// KOMPONENTY
-const ParaDetails = ({ info }) => (
-  <div className="para-details">
-    <div dangerouslySetInnerHTML={{ __html: info.zn }} />
-    <div className="para-src">
-      {"Zdroj: "}
-      <a href="https://zakonyprolidi.cz">zakonyprolidi.cz</a>
-    </div>
-  </div>
-);
+const ParaDetails = ({ info }) => {
+  const [rolled, setRolled] = useState(window.innerWidth < 600);
+  return (
+    <Fragment>
+      <button type="button" onClick={() => setRolled(!rolled)} className="roll-btn">Znění zákona</button>
+      {!rolled && (
+        <div className="para-details">
+          <div dangerouslySetInnerHTML={{ __html: info.zn }} />
+          <div className="para-src">
+            {"Zdroj: "}
+            <a href="https://zakonyprolidi.cz">zakonyprolidi.cz</a>
+          </div>
+        </div>
+      )}
+    </Fragment>
+  );
+};
 
 const SubSelect = ({ name, label, values, state, handler, choices }) => (
   <form>
@@ -222,8 +231,6 @@ class TrestApp extends Component {
               choices={["Muži", "Ženy"]}
             />
 
-
-            <div><b>Znění zákona:</b></div>
             <ParaDetails para={para.value} info={paragrafy.filter((el) => el.value === para.value)[0]} />
             <h2>{`Celkový počet odsouzených: ${data.len}`}</h2>
 

@@ -22,3 +22,11 @@
 .L6 {
   text-indent: 20px;
 }
+
+.roll-btn {
+  background: none;
+  border: none;
+  text-decoration: underline;
+  font-weight: bold;
+  padding-left: 0px;
+}
