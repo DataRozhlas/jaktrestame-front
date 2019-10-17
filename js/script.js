@@ -1,11 +1,15 @@
 ﻿/* eslint-disable no-unused-expressions */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-danger */
+// IE polyfilly
+import "core-js/features/array/includes";
+import "core-js/features/object/entries";
+import "core-js/features/number/is-integer";
+import "core-js/features/array/find-index";
 /** @jsx h */
 import { h, Component, render } from "preact";
 import { useState, Fragment } from "preact/compat";
 import Select from "react-select";
-import "./byeie"; // loučíme se s IE
 import { trestyCiselnik, trestyBarvy } from "./trestyCiselnik";
 import { GrafGender } from "./grafGender";
 import { GrafTrest } from "./grafTrest";
