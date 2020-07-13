@@ -79,7 +79,7 @@ class TrestApp extends Component {
     this.state = {
       para: paragrafy[0],
       odst: ["1", "2", "3", "4", "5"],
-      year: ["2016", "2017", "2018"],
+      year: ["2016", "2017", "2018", "2019"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
       soubeh: ["T"],
       pohlavi: ["muz", "zena"],
