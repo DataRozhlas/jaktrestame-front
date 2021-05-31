@@ -79,7 +79,7 @@ class TrestApp extends Component {
     this.state = {
       para: paragrafy[0],
       odst: ["1", "2", "3", "4", "5"],
-      year: ["2016", "2017", "2018", "2019"],
+      year: ["2016", "2017", "2018", "2019", "2020"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
       soubeh: ["T"],
       pohlavi: ["muz", "zena"],
@@ -130,7 +130,7 @@ class TrestApp extends Component {
     this.setState({
       para: changeEvent,
       odst: odstavce[changeEvent.value].sort().map(String),
-      year: ["2016", "2017", "2018", "2019"],
+      year: ["2016", "2017", "2018", "2019", "2020"],
       drivods: ["0", "1-2", "3-5", "6-10", ">10"],
       soubeh: ["T"],
       pohlavi: ["muz", "zena"],
@@ -147,7 +147,7 @@ class TrestApp extends Component {
       this.setState({
         odst: "all",
         para: ["1", "2", "3", "4", "5"],
-        year: ["2016", "2017", "2018", "2019"],
+        year: ["2016", "2017", "2018", "2019", "2020"],
         drivods: ["0", "1-2", "3-5", "6-10", ">10"],
         soubeh: ["T"],
         pohlavi: ["muz", "zena"],
@@ -194,7 +194,7 @@ class TrestApp extends Component {
             <SubSelect
               name="year"
               label="Rok"
-              values={["2016", "2017", "2018", "2019"]}
+              values={["2016", "2017", "2018", "2019", "2020"]}
               state={year}
               handler={(e) => this.handleCheckboxSelect("year", e)}
             />
